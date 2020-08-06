@@ -1,0 +1,48 @@
+{
+  "name": "chris-chewy-description",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "server-dev": "nodemon server/index.js",
+    "react-dev": "webpack -d --watch",
+    "db:setup": "node database-mongodb/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feckwame/chris-chewy-description.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/feckwame/chris-chewy-description/issues"
+  },
+  "homepage": "https://github.com/feckwame/chris-chewy-description#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "bootstrap": "^4.5.0",
+    "cors": "^2.8.5",
+    "css-loader": "^3.6.0",
+    "multer": "^1.4.2",
+    "mongoose": "^4.11.6",
+    "react": "^16.13.1",
+    "react-bootstrap": "^1.3.0",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/node": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-transform-arrow-functions": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/register": "^7.10.5",
+    "babel-loader": "^8.1.0",
+    "dotenv": "^8.2.0",
+    "style-loader": "^1.2.1",
+    "underscore": "^1.10.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  }
+}
