@@ -1,30 +1,29 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
 
-class App extends React.Component {
-  constructor(props){
-    super(props)
-  }
+class Review extends React.Component {
+  // constructor(props){
+  //   super (props)
+  // }
 
-  componentDidMount(){
-    this.get()
+  componentDidMount() {
+    this.get();
   }
 
   get = () => {
-    fetch('http://google.com/')
-    // console.log('hi')
+
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <h1>Hi from App!</h1>
-    )
+    );
   }
 }
 
-export default App;
+export default Review;
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('app')
-  )
+  <Review />,
+  document.getElementById('review'),
+);
