@@ -20,26 +20,42 @@ app.get('/reviews', (req, res) => {
       throw new Error(err);
     } else {
       // eslint-disable-next-line no-console
-      console.log('result! ', result);
       res.sendStatus(200);
       return result;
     }
   });
 });
 
-app.get('/review', (req, res) => {
-  const productId = req.body.product_id;
-  Reviews.findOne({ product_id: productId }, (err, result) => {
+app.get('/review/:productId', (req, res) => {
+  const starCount = {};
+  const reviewData = {};
+  const { productId } = req.params;
+  Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
     if (err) {
       // eslint-disable-next-line no-console
       console.log('Error! ', err);
       res.sendStatus(404);
       throw new Error(err);
     } else {
+      const { reviews } = result;
+      reviews.forEach((review) => {
+        const { stars } = review;
+        if (starCount[stars] === undefined) {
+          starCount[stars] = 1;
+        } else {
+          starCount[stars] += 1;
+        }
+      });
+      let count = 0;
+      Object.entries(starCount).forEach((x) => {
+        count += (x[0] * x[1]);
+      });
+      count /= reviews.length;
       // eslint-disable-next-line no-console
-      console.log('results!! ', result);
-      res.sendStatus(200);
-      return result;
+      reviewData.average_stars = Math.round(count);
+      reviewData.review_count = reviews.length;
+      res.status(200);
+      res.json(reviewData);
     }
   });
 });
