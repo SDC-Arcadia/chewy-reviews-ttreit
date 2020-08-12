@@ -8,9 +8,9 @@ mongoose.Promise = global.Promise;
 const reviewSchema = new mongoose.Schema(
   {
     product_id: String,
-    average_rating: Number,
     reviews: [
       {
+        title: String,
         author: String,
         create_date: String,
         body: String,

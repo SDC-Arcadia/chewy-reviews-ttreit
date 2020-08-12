@@ -18,12 +18,12 @@ const insertSampleData = (type = 'hipster-centric', paras = 5) => {
         const productId = count < 10 ? `P00${count}` : count > 9 && count < 100 ? `P0${count}` : `P${count}`;
         const productReview = {
           product_id: productId,
-          average_rating: randomNum(1, 100),
           reviews: [],
         };
 
-        for (let i = 0; i < randomNum(1, 11); i += 1) {
+        for (let i = 0; i < randomNum(100, 500); i += 1) {
           const review = {
+            title: x.split(',')[0],
             author: names[randomNum(1, 200)],
             create_date: Date.now(),
             body: x,
@@ -41,7 +41,7 @@ const insertSampleData = (type = 'hipster-centric', paras = 5) => {
     })
     .then((data) => {
       Reviews.create(data)
-        .then(() => db.disconnect());
+        .then(() => db.close());
     });
 };
 
