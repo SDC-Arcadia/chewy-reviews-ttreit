@@ -10,7 +10,6 @@ mongoose.connect('mongodb://localhost/reviews',
       console.log('Database connected');
     }
   });
-
 const db = mongoose.connection;
 
 module.exports = db;
