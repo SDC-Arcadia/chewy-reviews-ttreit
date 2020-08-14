@@ -1,17 +1,23 @@
+/* eslint-disable no-console */
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Review extends React.Component {
+class Reviews extends React.Component {
   // constructor(props){
   //   super (props)
   // }
 
   componentDidMount() {
-    this.get();
+    this.getReviews('P020');
   }
 
-  get = () => {
-
+  getReviews = (productId) => {
+    const url = `/reviewData/${productId}`;
+    fetch(url, {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .then((data) => console.log('Data from fetch: ', data));
   }
 
   render() {
@@ -21,9 +27,9 @@ class Review extends React.Component {
   }
 }
 
-export default Review;
+export default Reviews;
 
 ReactDOM.render(
-  <Review />,
-  document.getElementById('review'),
+  <Reviews />,
+  document.getElementById('reviews'),
 );
