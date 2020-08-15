@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const path = require('path');
 const Reviews = require('../db-mongo/Review.js');
 
@@ -15,7 +14,7 @@ app.use(express.static(path.join(__dirname, '/../react-client/dist')));
 app.get('/reviewData/:productId', (req, res) => {
   const { productId } = req.params;
   Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
-    if (err || result === null) {
+    if (!result) {
       console.log('Error! ', err);
       res.sendStatus(404);
     } else {
@@ -26,12 +25,12 @@ app.get('/reviewData/:productId', (req, res) => {
   });
 });
 
-app.get('/review/:productId', (req, res) => {
+app.get('/reviewsummary/:productId', (req, res) => {
   const starCount = {};
   const reviewData = {};
   const { productId } = req.params;
   Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
-    if (err || result === null) {
+    if (!result) {
       // eslint-disable-next-line no-console
       console.log('Error! ', err);
       res.sendStatus(404);
@@ -39,8 +38,7 @@ app.get('/review/:productId', (req, res) => {
       const { reviews } = result;
       let recommendedCount = 0;
       reviews.forEach((review) => {
-        const { stars } = review;
-        const { recommended } = review;
+        const { stars, recommended } = review;
         if (recommended) {
           recommendedCount += 1;
         }
