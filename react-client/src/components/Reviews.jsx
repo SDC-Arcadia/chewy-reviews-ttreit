@@ -14,6 +14,9 @@ class Reviews extends React.Component {
       stars: [],
       search: '',
     };
+    this.onChange = this.onChange.bind(this);
+    this.getReviews = this.getReviews.bind(this);
+    this.getReviewSummary = this.getReviewSummary.bind(this);
   }
 
   componentDidMount() {
@@ -21,7 +24,13 @@ class Reviews extends React.Component {
     this.getReviewSummary('P020');
   }
 
-  getReviews = (productId) => {
+  onChange(e) {
+    const store = this.state;
+    store[e.target.name] = e.target.value;
+    this.setState(store);
+  }
+
+  getReviews(productId) {
     const url = `/reviewData/${productId}`;
     axios.get(url)
       .then((data) => this.setState({ reviewData: data.data }))
@@ -32,7 +41,7 @@ class Reviews extends React.Component {
       });
   }
 
-  getReviewSummary = (e) => {
+  getReviewSummary(e) {
     // e.preventDefault();
     // const { search } = this.state;
     const url = `/reviewsummary/${e}`;
@@ -54,12 +63,6 @@ class Reviews extends React.Component {
       });
   }
 
-  onChange = (e) => {
-    const store = this.state;
-    store[e.target.name] = e.target.value;
-    this.setState(store);
-  }
-
   render() {
     const styles = {
       color: 'blue',
@@ -76,12 +79,12 @@ class Reviews extends React.Component {
         <header id="review-header">
           <h2 id="customer-header">Customer Reviews</h2>
           <div id="review-star-total">
-            <span style={styles}>
+            <span id="total_stars" style={styles}>
               {reviewSummary.review_count}
               {' '}
               Reviews
             </span>
-            <span style={styles}>
+            <span id="average_stars" style={styles}>
               {reviewSummary.average_stars}
               {' '}
               out of 5 stars
