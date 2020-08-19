@@ -21,7 +21,7 @@ const insertSampleData = (type = 'hipster-centric', paras = 5) => {
           reviews: [],
         };
 
-        for (let i = 0; i < randomNum(100, 500); i += 1) {
+        for (let i = 0; i < randomNum(1000, 2500); i += 1) {
           const review = {
             title: x.split(',')[0],
             author: names[randomNum(1, 200)],
