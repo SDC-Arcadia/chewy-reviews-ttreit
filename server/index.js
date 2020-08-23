@@ -5,7 +5,6 @@ const path = require('path');
 const Reviews = require('../db-mongo/Review.js');
 
 const app = express();
-const PORT = 3007;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,7 +24,7 @@ app.get('/reviewData/:productId', (req, res) => {
   });
 });
 
-app.get('/reviewsummary/:productId', (req, res) => {
+app.get('/reviewSummary/:productId', (req, res) => {
   const starCount = {};
   const reviewData = {};
   const { productId } = req.params;
@@ -64,7 +63,4 @@ app.get('/reviewsummary/:productId', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`listening on port http://localhost:${PORT}`);
-});
+module.exports = app;
