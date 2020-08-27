@@ -1,13 +1,10 @@
 /* eslint-disable no-console */
 const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
 const Reviews = require('../db-mongo/Review.js');
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '/../react-client/dist')));
 
 app.get('/reviewData/:productId', (req, res) => {
@@ -57,10 +54,15 @@ app.get('/reviewSummary/:productId', (req, res) => {
       reviewData.review_count = reviews.length;
       reviewData.recommended = Math.round(recommendedCount);
       reviewData.total_stars = starCount;
+      reviewData.product_id = result.product_id;
       res.status(200);
       res.json(reviewData);
     }
   });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/../react-client/dist', 'index.html'));
 });
 
 module.exports = app;

@@ -32,16 +32,17 @@ describe('Review Data', () => {
 
 describe('Express test', () => {
   const reviewSummary = {
-    average_stars: 5,
-    review_count: 1057,
+    averageStars: 5,
+    reviewCount: 1067,
     recommended: 52,
-    total_stars: {
+    totalStars: {
       1: 236,
       2: 213,
       3: 210,
       4: 208,
       5: 190,
     },
+    product: 'P001',
   };
 
   beforeEach(() => {
@@ -54,7 +55,7 @@ describe('Express test', () => {
 
   it('should fetch reviewSummary data', (done) => {
     const wrapper = shallow(<Reviews />);
-    moxios.stubRequest('/reviewSummary/P020', {
+    moxios.stubRequest('/reviewSummary/P001', {
       status: 200,
       response: reviewSummary,
     });
@@ -67,12 +68,12 @@ describe('Express test', () => {
 
   it('should fetch all review data', (done) => {
     const wrapper = shallow(<Reviews />);
-    moxios.stubRequest('/reviewData/P020', {
+    moxios.stubRequest('/reviewData/P001', {
       status: 200,
-      response: reviewSummary.review_count,
+      response: reviewSummary.reviewCount,
     });
     moxios.wait(() => {
-      expect(wrapper.state('reviewData')).toBe(reviewSummary.review_count);
+      expect(wrapper.state('reviewData')).toBe(reviewSummary.reviewCount);
       wrapper.unmount();
       done();
     });

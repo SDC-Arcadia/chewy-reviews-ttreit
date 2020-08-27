@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// eslint-disable-next-line no-unused-vars
 const Graph = ({ stars }) => (
   <table>
     <tbody>
@@ -49,11 +50,7 @@ const Graph = ({ stars }) => (
 );
 
 Graph.propTypes = {
-  stars: PropTypes.arrayOf(Number),
-};
-
-Graph.defaultProps = {
-  stars: PropTypes.arrayOf(Number),
+  stars: PropTypes.arrayOf(Number).isRequired,
 };
 
 export default Graph;
