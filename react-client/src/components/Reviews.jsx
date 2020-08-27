@@ -20,7 +20,7 @@ class Reviews extends React.Component {
   }
 
   componentDidMount() {
-    // this.getReviews('P020');
+    this.getReviews('P020');
     this.getReviewSummary('P020');
   }
 
@@ -44,7 +44,7 @@ class Reviews extends React.Component {
   getReviewSummary(e) {
     // e.preventDefault();
     // const { search } = this.state;
-    const url = `/reviewsummary/${e}`;
+    const url = `/reviewSummary/${e}`;
     axios.get(url)
       .then((data) => {
         const percentageStarred = [];

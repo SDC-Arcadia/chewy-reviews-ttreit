@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "server-dev": "nodemon server/index.js",
+    "server-dev": "nodemon server/server.js",
     "dev-build": "webpack --config webpack.dev.js --watch",
     "prod-build": "webpack --config webpack.prod.js",
     "db:setup": "node db-mongo/seed.js",
@@ -30,7 +30,6 @@
     "aws-sdk": "^2.729.0",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
-    "bootstrap": "^4.5.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
@@ -72,6 +71,7 @@
     "jest": "^26.4.0",
     "jest-enzyme": "^7.1.2",
     "jest-extended": "^0.11.5",
+    "moxios": "^0.4.0",
     "style-loader": "^1.2.1",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"
