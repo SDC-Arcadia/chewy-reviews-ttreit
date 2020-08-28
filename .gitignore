@@ -1,3 +1,5 @@
 node_modules
 .env
 example.http
+reviews.prod-bundle.js
+reviews.dev-bundle.js
