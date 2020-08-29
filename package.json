@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "server-dev": "nodemon server/server.js",
-    "dev-build": "webpack --config webpack.dev.js --watch",
-    "prod-build": "webpack --config webpack.prod.js",
+    "start-server": "nodemon server/server.js",
+    "build-dev": "webpack --config webpack.dev.js --watch",
+    "build-prod": "webpack --config webpack.prod.js",
     "db:setup": "node db-mongo/seed.js",
     "lint": "eslint . --ext .js,.jsx",
     "test": "jest"
