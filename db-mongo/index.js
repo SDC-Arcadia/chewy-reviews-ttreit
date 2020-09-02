@@ -1,15 +1,10 @@
+/* eslint-disable no-console */
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/reviews',
-  { useNewUrlParser: true }, (error) => {
-    if (error) {
-      // eslint-disable-next-line no-console
-      console.log('connection error: ', error);
-    } else {
-      // eslint-disable-next-line no-console
-      console.log('Database connected');
-    }
-  });
+mongoose.connect('mongodb://reviews_mongo/reviews',
+  { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(console.log('Database connected'))
+  .catch((err) => console.log(err));
 const db = mongoose.connection;
 
 module.exports = db;

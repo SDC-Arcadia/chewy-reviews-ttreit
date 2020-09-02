@@ -24,7 +24,7 @@ class Reviews extends React.Component {
     // eslint-disable-next-line no-undef
     const parsedUrl = new URL(window.location.href);
     let productId = parsedUrl.searchParams.get('productId');
-    if (productId === null || productId.length !== 4 || parseInt(productId.slice(1), 10) > 499) {
+    if (productId === null || productId.length !== 4 || parseInt(productId.slice(1), 10) > 100) {
       productId = undefined;
     }
     this.getReviews(productId);

@@ -1,7 +1,7 @@
 {
   "name": "chris-chewy-description",
   "version": "1.0.0",
-  "description": "",
+  "description": "RPT22-FEC_KWAME",
   "scripts": {
     "start-server": "nodemon server/server.js",
     "build-dev": "webpack --config webpack.dev.js --watch",
@@ -20,7 +20,7 @@
     "type": "git",
     "url": "git+https://github.com/feckwame/chris-chewy-description.git"
   },
-  "author": "",
+  "author": "Chris Palka",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/feckwame/chris-chewy-description/issues"

@@ -1,0 +1,25 @@
+version: "2"
+services:
+  app:
+    container_name: chris-chewy-reviews
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    ports:
+      - "3007:3007"
+    links:
+      - mongo
+  mongo:
+    container_name: reviews_mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+  mongo_seeding:
+    build:
+      context: .
+      dockerfile: ./docker/db_seeding/Dockerfile
+    depends_on:
+      - mongo

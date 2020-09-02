@@ -1,0 +1,19 @@
+{
+  "name": "db_seeding",
+  "version": "1.0.0",
+  "description": "Seeds database within docker container",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feckwame/chris-chewy-description.git"
+  },
+  "author": "Chris Palka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/feckwame/chris-chewy-description/issues"
+  },
+  "homepage": "https://github.com/feckwame/chris-chewy-description#readme",
+  "dependencies": {
+    "mongoose": "^5.9.28",
+    "node-fetch": "^2.6.0"
+  }
+}

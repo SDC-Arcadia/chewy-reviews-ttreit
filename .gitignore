@@ -3,3 +3,4 @@ node_modules
 example.http
 reviews.prod-bundle.js
 reviews.dev-bundle.js
+data
