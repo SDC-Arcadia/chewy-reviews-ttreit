@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-nested-ternary */
 const fetch = require('node-fetch');
 const Reviews = require('./Review.js');
