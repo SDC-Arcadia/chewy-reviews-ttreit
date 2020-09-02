@@ -6,7 +6,7 @@ import ReviewList from './ReviewList.jsx';
 
 const axios = require('axios');
 
-const SERVER_URL = 'http://localhost:3007';
+// const SERVER_URL = 'http://localhost:3007';
 
 class Reviews extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class Reviews extends React.Component {
   }
 
   getReviews(productId = 'P001') {
-    const url = `${SERVER_URL}/reviewData/${productId}`;
+    const url = `/reviewData/${productId}`;
     axios.get(url)
       .then((response) => this.setState({ reviewData: response.data }))
       .catch((err) => {
@@ -41,7 +41,7 @@ class Reviews extends React.Component {
   }
 
   getReviewSummary(productId = 'P001') {
-    const url = `${SERVER_URL}/reviewSummary/${productId}`;
+    const url = `/reviewSummary/${productId}`;
     axios.get(url)
       .then((response) => {
         const percentageStarred = [];
