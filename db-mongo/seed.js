@@ -1,11 +1,11 @@
 /* eslint-disable no-nested-ternary */
 const fetch = require('node-fetch');
-const db = require('./index.js');
 const Reviews = require('./Review.js');
 
 const names = 'ediblesurf\nscarypepperoni\ncorkbaggage\nauctioneerhatching\nsnoutfea\nimmersionmanrope\nmuralmilly\nseventhneodymium\nchunksalt\nreformatmagpie\nlabradortwister\nregimepeese\nstaratlas\nflashsixth\ncancerkite\nraymondcurtains\ncreamlikecherub\nparalysesprogress\nabaftproposal\narticulateamos\nsaskatoonfrench\nimpressdarkened\nglottlethrower\ndindowssoulful\nbottomherald\nbrunnichandes\nmeddarsleather\nneodymiumspirit\nnuptsesnazzy\nafraidunbridle\nmoonlighttoilet\ncomplexorfling\nhuskinesscash\nevokeelbrus\nfadedadvance\ndullaffix\nverbclattering\njellydeplete\ncriteriacatnap\nhominybust\ninfiniteorrin\nnetworkparking\njungeecynon\ndeclarestorm\npneumoniaski\narmoryaccentor\naudacityjoints\njoggercycle\nnicotineswunchy\nmanagerpops\njoyfulneptunium\nwoundswilderness\nmyviewpopulation\npetchtasha\nstrodeils\nconfusionendpoint\nbunkbedfog\npetrifiedoklahoma\naideamidships\nbroadsnugly\nobjectfunction\nsiestaequate\nquizzicalclydach\ncathousepup\nrumblelizard\nphonydivide\nricesymphony\ndreefhootenany\ndailypowdered\nkivadryer\nsandyconcede\ntaodailgermanium\nfrompoking\nsummergrape\ncharlesculprit\nlateplutting\njetfoudry\ngenespittal\nglassesballs\ndemplewheatear\nairsnatch\nsingerharm\noilymones\nbooesreborn\nrewordfunnels\nleanregistered\nfiddleextreme\nimitategravity\nrubyaffidavit\nfuneralyudding\ngrainmodeling\nkindergartenleaves\ndampedaudition\nadaptivesixfold\nbiopsygore\nfilesdosty\ncarefreelikeable\ndareslaxative\nhearingpacify\njudysleuth\nscrambleralph\nwimpfrisbee\nmadlyalexandria\nhearingcornball\nbrakesmall\nbreedercitrusy\nlogsprint\ngoldmedalraise\nhelpfulyikes\nramblingangie\nshakablehamburger\nticketsfist\ntowerwegs\nexactingharmony\npostsuncouth\nbootlesssimon\nviewingcamera\nwirelessbased\nfoecadair\narmaghfarmer\ndramatictrifocals\ntyingmid\ncrippsvimeo\ncrumblyscotland\nvaselinelila\nnuggedlegwarmer\nalkalineduress\ndicedoil\nbarblingradon\nbilliesblank\nflapjackwarbler\ngrowldirective\ndepletewise\ntatchjawed\ntartloxahatchee\nrailwaysadly\ntelephonestumptown\npagingnatural\nassiniboinepoppy\nrackunsuitable\nbitfeverish\nsmallweedalso\nmournernest\nheritagefollowed\ncoatgift\ncompetitoralibi\nmogglingquantity\nvermontswaddling\nectodermmalestate\nshooterforever\nshackalgae\nperseusjoin\nfruitwalker\nconsisttelrad\npoetsnorkel\nmonthlyopulent\npowerhart\nmowingjellies\nsoakanchor\nintelunderstanding\npickclassroom\npicayunenutcase\nunsuretriathlon\nfoggystickers\nflotillanicoise\ngreaterstaking\nfaildial\ntoolhush\ndexterousdecay\ncunseymumbling\nfionaquaint\nkelvinchomp\nmightyunison\nchoardvest\ntackingskylight\ndevelopqueer\npolythenekansas\ntannedcountry\nclawedfreely\nfledfix\ncabotatrophy\namigoexcluded\nvestashamed\nconfesssnictor\nbugtorque\napigiftshop\ncreepyuninsured\nvallislate\nbathroomdiving\nplinkoval\nhusclejukebox\nnagdeadbeat\nsplendidspiffy\nbipplingavenge\nfrizzylouie\ntwigpumpkin\nobedientmontana\nkittbaloo\npariscenters\nparcelpotter'.split('\n');
 
 let count = 1;
+
 const insertSampleData = (type = 'hipster-centric', paras = 5) => {
   const randomNum = (min, max) => Math.floor(Math.random() * (max - min) + min);
   const sampleReviews = [];
@@ -40,9 +40,17 @@ const insertSampleData = (type = 'hipster-centric', paras = 5) => {
       return sampleReviews;
     })
     .then((data) => {
-      Reviews.create(data)
-        .then(() => db.close());
-    });
+      Reviews.remove({}, (err) => {
+        if (err) {
+          console.log('Error Removing!');
+        } else {
+          console.log('Collection emptied!');
+          Reviews.create(data);
+        }
+      });
+    })
+    // eslint-disable-next-line no-console
+    .catch((err) => console.log(err));
 };
 
 const loopSampleData = (num, type, paras) => {
