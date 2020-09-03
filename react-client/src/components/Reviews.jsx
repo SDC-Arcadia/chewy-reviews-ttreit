@@ -36,7 +36,7 @@ class Reviews extends React.Component {
     axios.get(url)
       .then((response) => this.setState({ reviewData: response.data }))
       .catch((err) => {
-        console.log('Error! ', err);
+        console.log('Error calling endpoint! ', err);
       });
   }
 
@@ -65,7 +65,7 @@ class Reviews extends React.Component {
         });
       })
       .catch((err) => {
-        console.log('Error! ', err);
+        console.log('Error calling endpoint! ', err);
       });
   }
 

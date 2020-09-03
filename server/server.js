@@ -14,7 +14,7 @@ app.get('/reviewData/:productId', (req, res) => {
   const { productId } = req.params;
   Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
     if (!result) {
-      console.log('Error! ', err);
+      console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
       const { reviews } = result;
@@ -31,7 +31,7 @@ app.get('/reviewSummary/:productId', (req, res) => {
   Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
     if (!result) {
       // eslint-disable-next-line no-console
-      console.log('Error! ', err);
+      console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
       const { reviews } = result;
