@@ -6,7 +6,8 @@ import ReviewList from './ReviewList.jsx';
 
 const axios = require('axios');
 
-const SERVER_URL = 'http://ec2-18-144-100-44.us-west-1.compute.amazonaws.com:3007';
+const SERVER_URL = 'ec2-204-236-154-81.us-west-1.compute.amazonaws.com:3007';
+// const SERVER_URL = 'http://localhost:3007';
 
 class Reviews extends React.Component {
   constructor(props) {
@@ -23,15 +24,15 @@ class Reviews extends React.Component {
   componentDidMount() {
     // eslint-disable-next-line no-undef
     const parsedUrl = new URL(window.location.href);
-    let productId = parsedUrl.searchParams.get('productId');
-    if (productId === null || productId.length !== 4 || parseInt(productId.slice(1), 10) > 100) {
-      productId = undefined;
-    }
+    const productId = parsedUrl.searchParams.get('productId');
+    // if (productId === null || productId.length !== 4 || parseInt(productId.slice(1), 10) > 100) {
+    //   productId = undefined;
+    // }
     this.getReviews(productId);
     this.getReviewSummary(productId);
   }
 
-  getReviews(productId = 'P001') {
+  getReviews(productId) {
     const url = `${SERVER_URL}/reviewData/${productId}`;
     axios.get(url)
       .then((response) => this.setState({ reviewData: response.data }))
@@ -40,7 +41,7 @@ class Reviews extends React.Component {
       });
   }
 
-  getReviewSummary(productId = 'P001') {
+  getReviewSummary(productId) {
     const url = `${SERVER_URL}/reviewSummary/${productId}`;
     axios.get(url)
       .then((response) => {
@@ -75,14 +76,20 @@ class Reviews extends React.Component {
 
     return (
       <>
-        <ReviewSummary
-          summary={reviewSummary}
-          allReviews={reviewData}
-          stars={stars}
-        />
-        <ReviewList summary={reviewSummary} allReviews={reviewData} />
+        {
+          reviewData.length ? (
+            <>
+              <ReviewSummary
+                summary={reviewSummary}
+                allReviews={reviewData}
+                stars={stars}
+              />
+              <ReviewList summary={reviewSummary} allReviews={reviewData} />
+            </>
+          )
+            : <div>Loading Reviews...</div>
+        }
       </>
-
     );
   }
 }
