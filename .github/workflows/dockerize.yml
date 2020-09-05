@@ -21,7 +21,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+      - name: docker login
+        env: 
+          DOCKER_USER: ${{ secrets.DOCKER_USER }} 
+          DOCKER_PW:  ${{ secrets.DOCKER_PW }}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PW
       # Runs a single command using the runners shell
       - name: docker build chris-chewy-reviews
         run: docker build -f Dockerfile.build -t feckwame/chris-chewy-reviews:gitworkflow_app .
@@ -29,3 +34,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: docker build mongo_seeding
         run: docker build -f Dockerfile.seed -t feckwame/chris-chewy-reviews:gitworkflow_db_seeding .
+      - name: docker push
+        run: |
+          docker push feckwame/chris-chewy-reviews:gitworkflow_app
+          docker push feckwame/chris-chewy-reviews:gitworkflow_db_seeding
