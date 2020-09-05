@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const Reviews = require('../db-mongo/Review.js');
 
-const PORT = 3007;
+const PORT = process.env.port || 80;
 const app = express();
 
 app.use(cors());

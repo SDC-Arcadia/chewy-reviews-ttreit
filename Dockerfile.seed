@@ -8,6 +8,6 @@ COPY ./db-mongo/index.js /code/db-mongo/index.js
 COPY ./db-mongo/Review.js /code/db-mongo/Review.js
 COPY ./db-mongo/seed.js /code/db-mongo/seed.js
 
-RUN npm install
+RUN npm i mongoose@^5.9.28 node-fetch@^2.6.0
 
 CMD ["node", "db-mongo/seed.js"]

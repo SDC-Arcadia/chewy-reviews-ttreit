@@ -6,8 +6,8 @@ import ReviewList from './ReviewList.jsx';
 
 const axios = require('axios');
 
-const SERVER_URL = 'ec2-204-236-154-81.us-west-1.compute.amazonaws.com:3007';
-// const SERVER_URL = 'http://localhost:3007';
+const SERVER_URL = 'http://ec2-204-236-154-81.us-west-1.compute.amazonaws.com:3007';
+// const SERVER_URL = 'http://localhost';
 
 class Reviews extends React.Component {
   constructor(props) {
