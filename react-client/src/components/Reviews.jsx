@@ -1,13 +1,24 @@
 /* eslint-disable no-console */
 /* eslint-disable import/extensions */
 import React from 'react';
+import styled from 'styled-components';
 import ReviewSummary from './ReviewSummary.jsx';
+import ReviewPhotos from './ReviewPhotos.jsx';
 import ReviewList from './ReviewList.jsx';
+
+const ArticleContainer = styled.article`
+  margin: 32px 121.5px 0px;
+  padding: 0px 60px;
+`;
+
+const SectionContainer = styled.section`
+  margin: 0px 0px 24px;
+  padding 55px 24px 16px;
+`;
 
 const axios = require('axios');
 
 const SERVER_URL = 'http://ec2-204-236-154-81.us-west-1.compute.amazonaws.com:3007';
-// const SERVER_URL = 'http://localhost';
 
 class Reviews extends React.Component {
   constructor(props) {
@@ -25,9 +36,6 @@ class Reviews extends React.Component {
     // eslint-disable-next-line no-undef
     const parsedUrl = new URL(window.location.href);
     const productId = parsedUrl.searchParams.get('productId');
-    // if (productId === null || productId.length !== 4 || parseInt(productId.slice(1), 10) > 100) {
-    //   productId = undefined;
-    // }
     this.getReviews(productId);
     this.getReviewSummary(productId);
   }
@@ -75,7 +83,7 @@ class Reviews extends React.Component {
     const { stars } = this.state;
 
     return (
-      <>
+      <ArticleContainer>
         {
           reviewData.length ? (
             <>
@@ -84,12 +92,15 @@ class Reviews extends React.Component {
                 allReviews={reviewData}
                 stars={stars}
               />
-              <ReviewList summary={reviewSummary} allReviews={reviewData} />
+              <SectionContainer>
+                <ReviewList summary={reviewSummary} allReviews={reviewData} />
+                <ReviewPhotos />
+              </SectionContainer>
             </>
           )
             : <div>Loading Reviews...</div>
         }
-      </>
+      </ArticleContainer>
     );
   }
 }
