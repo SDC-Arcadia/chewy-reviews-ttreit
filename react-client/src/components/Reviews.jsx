@@ -16,6 +16,14 @@ const SectionContainer = styled.section`
   padding 55px 24px 16px;
 `;
 
+const ReviewListContainer = styled.div`
+  display: inline-block;
+`;
+
+const ReviewPhotosContainer = styled.div`
+  float: right;
+`;
+
 const axios = require('axios');
 
 const SERVER_URL = 'http://ec2-204-236-154-81.us-west-1.compute.amazonaws.com:3007';
@@ -93,8 +101,12 @@ class Reviews extends React.Component {
                 stars={stars}
               />
               <SectionContainer>
-                <ReviewList summary={reviewSummary} allReviews={reviewData} />
-                <ReviewPhotos />
+                <ReviewListContainer>
+                  <ReviewList summary={reviewSummary} allReviews={reviewData} />
+                </ReviewListContainer>
+                <ReviewPhotosContainer>
+                  <ReviewPhotos />
+                </ReviewPhotosContainer>
               </SectionContainer>
             </>
           )

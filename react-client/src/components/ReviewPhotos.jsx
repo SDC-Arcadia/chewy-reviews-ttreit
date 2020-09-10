@@ -7,12 +7,13 @@ const ReviewPhotosContainer = styled.div`
   font-weight: 600;
   font-size: 18px;
   float: right;
-  display: inline-block;
+  display: block;
 `;
 
 const ReviewPhotos = () => (
   <ReviewPhotosContainer>
     <h3>Customer Photos</h3>
+    <p>Content Here</p>
   </ReviewPhotosContainer>
 );
 

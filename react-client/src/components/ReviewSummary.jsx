@@ -7,6 +7,11 @@ import Recommended from './Recommended.jsx';
 
 const GraphContainer = styled.div`
   float: left;
+  > p {
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 15px;
+  }
 `;
 
 const Section = styled.section`

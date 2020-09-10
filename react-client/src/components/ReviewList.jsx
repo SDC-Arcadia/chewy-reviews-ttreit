@@ -20,17 +20,8 @@ const Header = styled.header`
     }
 `;
 
-const ReviewListContainer = styled.div`
-    float: left;
-    display: inline-block;
-`;
-
-const FilterDiv = styled.div`
-  margin: 0px 8px 0px 0px;
-`;
-
 const ReviewList = ({ summary: { reviewCount }, allReviews }) => (
-  <ReviewListContainer>
+  <>
     <h2>
       {reviewCount}
       {' '}
@@ -57,7 +48,7 @@ const ReviewList = ({ summary: { reviewCount }, allReviews }) => (
           <option value="PHOTO_REVIEWS">Photo reviews</option>
         </select>
       </div>
-      <FilterDiv>
+      <div>
         <label htmlFor="filter-by">Filter by:</label>
         <select>
           <option value="ALL_STARS">All stars</option>
@@ -69,7 +60,7 @@ const ReviewList = ({ summary: { reviewCount }, allReviews }) => (
           <option value="ALL_POSITIVE">All positive</option>
           <option value="ALL_CRITICAL">All critical</option>
         </select>
-      </FilterDiv>
+      </div>
     </Header>
     <div>
       <ul>
@@ -88,7 +79,7 @@ const ReviewList = ({ summary: { reviewCount }, allReviews }) => (
         ))}
       </ul>
     </div>
-  </ReviewListContainer>
+  </>
 );
 
 ReviewList.propTypes = {
