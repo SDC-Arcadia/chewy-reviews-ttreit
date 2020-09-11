@@ -2,7 +2,7 @@ name: Chewy2.0Builds
 on:
   push:
     branches: [ master ]
-  pull_request:
+  merge:
     branches: [ master ]
 jobs:
   build:
