@@ -7,6 +7,7 @@ const ReviewEntry = ({
   <li key={id}>
     <span>
       {stars}
+      {' '}
       out of 5 stars
       <h1>{title}</h1>
     </span>

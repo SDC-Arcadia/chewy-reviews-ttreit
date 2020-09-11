@@ -26,7 +26,7 @@ const insertSampleData = (type = 'hipster-centric', paras = 5) => {
           const review = {
             title: x.split(',')[0],
             author: names[randomNum(1, 200)],
-            create_date: Date.now(),
+            create_date: new Date(Date.now()),
             body: x,
             likes: randomNum(1, 50),
             stars: randomNum(1, 6),

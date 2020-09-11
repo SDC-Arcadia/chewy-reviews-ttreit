@@ -1,45 +1,88 @@
 /* eslint-disable import/extensions */
 import React from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Graph from './Graph.jsx';
 import Recommended from './Recommended.jsx';
 
+const GraphContainer = styled.div`
+  float: left;
+  > p {
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 15px;
+  }
+`;
+
+const Section = styled.section`
+  overflow: auto;
+`;
+
+const RecommendedContainer = styled.div`
+  float: right;
+`;
+
+const ReviewSummaryHeader = styled.header`
+  > h1 {
+    font-family: Roboto;
+    font-weight: 300;
+    font-size: 36px;
+  }
+  > div {
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 16px;
+    color: #666666;
+    > span > button {
+      font-family: inherit;
+      font-size: 100%;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      background: none;
+      color: #0B70BE;
+    }
+  }
+  padding: 0px 0px 40px;
+`;
+
 const ReviewSummary = ({
   summary: {
-    reviewCount, product, averageStars, recommended,
+    reviewCount, averageStars, recommended,
   }, stars,
 }) => (
-  <article>
-    <header id="review-header">
+  <>
+    <ReviewSummaryHeader>
       <h1>
         Customer Reviews
       </h1>
-      <h2>
-        {product}
-      </h2>
-      <div id="review-star-total">
+      <div>
         <span>
-          {reviewCount}
-          {' '}
-          Reviews
+          <button type="button">
+            {reviewCount}
+            {' '}
+            Reviews
+          </button>
         </span>
         <span>
+          {' '}
+          {'|'}
+          {' '}
           {averageStars}
           {' '}
           out of 5 stars
         </span>
       </div>
-    </header>
-    <section>
-      <div>
-        <p>Filter reviews by star rating</p>
-        <Graph stars={stars} recommended={recommended} />
-      </div>
-      <span>
-        <Recommended />
-      </span>
-    </section>
-  </article>
+    </ReviewSummaryHeader>
+    <Section>
+      <GraphContainer>
+        <Graph stars={stars} />
+      </GraphContainer>
+      <RecommendedContainer>
+        <Recommended recommended={recommended} />
+      </RecommendedContainer>
+    </Section>
+  </>
 );
 
 ReviewSummary.propTypes = {
