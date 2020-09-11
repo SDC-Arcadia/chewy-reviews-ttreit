@@ -8,7 +8,7 @@ import Recommended from './Recommended.jsx';
 const GraphContainer = styled.div`
   float: left;
   > p {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-weight: 500;
     font-size: 15px;
   }
@@ -24,12 +24,12 @@ const RecommendedContainer = styled.div`
 
 const ReviewSummaryHeader = styled.header`
   > h1 {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-weight: 300;
     font-size: 36px;
   }
   > div {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-weight: 400;
     font-size: 16px;
     color: #666666;

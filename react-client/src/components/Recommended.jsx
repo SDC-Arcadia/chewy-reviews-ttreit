@@ -18,12 +18,12 @@ const RecommendedContainer = styled.div`
     fill: none;
   }
   .percent-text {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-size: 10px;
     font-weight: 300;
   }
   .sub-text {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-size: 2px;
     font-weight: 400;
 
