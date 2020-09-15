@@ -7,6 +7,7 @@ import Recommended from './Recommended.jsx';
 
 const GraphContainer = styled.div`
   float: left;
+  width: 25%;
   > p {
     font-family: Roboto, sans-serif;
     font-weight: 500;
@@ -20,6 +21,7 @@ const Section = styled.section`
 
 const RecommendedContainer = styled.div`
   float: right;
+  width: 30%;
 `;
 
 const ReviewSummaryHeader = styled.header`

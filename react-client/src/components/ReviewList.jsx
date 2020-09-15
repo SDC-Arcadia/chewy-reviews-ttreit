@@ -10,7 +10,14 @@ import ReviewEntry from './ReviewEntry.jsx';
 
 const Header = styled.header`
   padding: 15px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
     > p {
+      font-family: Roboto, sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: #333333;
       text-align: left;
       display: inline-block;
     }
@@ -18,6 +25,22 @@ const Header = styled.header`
       float: right;
       margin: 16px 0px;
     }
+    > div > label {
+      font-family: Roboto, sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: #333333;
+    }
+`;
+
+const LabelDiv = styled.div`
+  > select {
+    border: 1px solid #ccc;
+    > option {
+      font-family: Roboto;
+      font-weight: 400;
+    }
+  }
 `;
 
 const ReviewList = ({ summary: { reviewCount }, allReviews }) => (
@@ -35,7 +58,7 @@ const ReviewList = ({ summary: { reviewCount }, allReviews }) => (
         {' '}
         reviews
       </p>
-      <div>
+      <LabelDiv>
         <label htmlFor="sort-by">Sort by:</label>
         <select>
           <option value="MOST_RELEVANT">Most relevant</option>
@@ -47,8 +70,8 @@ const ReviewList = ({ summary: { reviewCount }, allReviews }) => (
           <option value="LOWEST_RATING">Lowest rating</option>
           <option value="PHOTO_REVIEWS">Photo reviews</option>
         </select>
-      </div>
-      <div>
+      </LabelDiv>
+      <LabelDiv>
         <label htmlFor="filter-by">Filter by:</label>
         <select>
           <option value="ALL_STARS">All stars</option>
@@ -60,7 +83,7 @@ const ReviewList = ({ summary: { reviewCount }, allReviews }) => (
           <option value="ALL_POSITIVE">All positive</option>
           <option value="ALL_CRITICAL">All critical</option>
         </select>
-      </div>
+      </LabelDiv>
     </Header>
     <div>
       <ul>
