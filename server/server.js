@@ -64,6 +64,21 @@ app.get('/reviewSummary/:productId', (req, res) => {
   });
 });
 
+app.get('/filterReviews/:productId/:starRating', (req, res) => {
+  const { starRating } = req.params;
+  const { productId } = req.params;
+  Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
+    if (!result) {
+      console.log('Error querying database! ', err);
+      res.sendStatus(404);
+    } else {
+      const match = result.reviews.filter((reviews) => reviews.stars === (Number(starRating)));
+      res.status(200);
+      res.json(match);
+    }
+  });
+});
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../react-client/dist', 'index.html'));
 });

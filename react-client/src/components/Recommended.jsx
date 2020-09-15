@@ -87,8 +87,12 @@ const Recommended = ({ recommended }) => (
   </>
 );
 
+Recommended.defaultProps = {
+  recommended: 100,
+};
+
 Recommended.propTypes = {
-  recommended: PropTypes.number.isRequired,
+  recommended: PropTypes.number,
 };
 
 export default Recommended;
