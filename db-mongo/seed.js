@@ -7,8 +7,12 @@ const names = 'ediblesurf\nscarypepperoni\ncorkbaggage\nauctioneerhatching\nsnou
 
 let count = 1;
 
+const randomNum = (min, max) => Math.floor(Math.random() * (max - min) + min);
+
+const randomDate = (start, end) => new Date(start.getTime()
++ Math.random() * (end.getTime() - start.getTime()));
+
 const insertSampleData = (type = 'hipster-centric', paras = 5) => {
-  const randomNum = (min, max) => Math.floor(Math.random() * (max - min) + min);
   const sampleReviews = [];
 
   const url = `https://hipsum.co/api/?type=${type}&paras=${paras}`;
@@ -26,7 +30,7 @@ const insertSampleData = (type = 'hipster-centric', paras = 5) => {
           const review = {
             title: x.split(',')[0],
             author: names[randomNum(1, 200)],
-            create_date: new Date(Date.now()),
+            create_date: randomDate(new Date(2015, 0, 1), new Date()),
             body: x,
             likes: randomNum(1, 50),
             stars: randomNum(1, 6),
@@ -41,20 +45,20 @@ const insertSampleData = (type = 'hipster-centric', paras = 5) => {
       return sampleReviews;
     })
     .then((data) => {
-      Reviews.remove({}, (err) => {
-        if (err) {
-          console.log('Error Removing!');
-        } else {
-          console.log('Collection emptied!');
-          Reviews.create(data);
-        }
-      });
+      Reviews.create(data);
     })
     // eslint-disable-next-line no-console
     .catch((err) => console.log(err));
 };
 
 const loopSampleData = (num, type, paras) => {
+  Reviews.deleteMany({}, (err) => {
+    if (err) {
+      console.log('Error Removing!');
+    } else {
+      console.log('Collection emptied!');
+    }
+  });
   for (let i = 0; i < num; i += 1) {
     insertSampleData(type, paras);
   }

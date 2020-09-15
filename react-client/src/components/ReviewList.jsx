@@ -20,7 +20,12 @@ const Header = styled.header`
     }
 `;
 
-const ReviewList = ({ summary: { reviewCount }, allReviews, filterReviews, handleSelect }) => (
+const ReviewList = ({
+  summary: { reviewCount },
+  allReviews,
+  // eslint-disable-next-line react/prop-types
+  handleSelect,
+}) => (
   <>
     <h2>
       {reviewCount}
@@ -37,28 +42,28 @@ const ReviewList = ({ summary: { reviewCount }, allReviews, filterReviews, handl
       </p>
       <div>
         <label htmlFor="sort-by">Sort by:</label>
-        <select>
-          <option value="MOST_RELEVANT">Most relevant</option>
-          <option value="NEWEST">Newest</option>
-          <option value="TOP_CONTRIBUTORS">Top contributors</option>
-          <option value="FEATURED_REVIEWS">Featured reviews</option>
-          <option value="OLDEST">Oldest</option>
-          <option value="HIGHEST_RATING">Highest rating</option>
-          <option value="LOWEST_RATING">Lowest rating</option>
-          <option value="PHOTO_REVIEWS">Photo reviews</option>
+        <select id="sort" onChange={handleSelect}>
+          <option value="relevant">Most relevant</option>
+          <option value="newest">Newest</option>
+          <option value="top_contributor">Top contributors</option>
+          <option value="featured">Featured reviews</option>
+          <option value="oldest">Oldest</option>
+          <option value="highest_rating">Highest rating</option>
+          <option value="lowest_rating">Lowest rating</option>
+          <option value="photo_reviews">Photo reviews</option>
         </select>
       </div>
       <div>
         <label htmlFor="filter-by">Filter by:</label>
-        <select onChange={handleSelect}>
+        <select id="filter" onChange={handleSelect}>
           <option value="all">All stars</option>
           <option value="5">5 stars only</option>
           <option value="4">4 stars only</option>
           <option value="3">3 stars only</option>
           <option value="2">2 stars only</option>
           <option value="1">1 star only</option>
-          <option value="ALL_POSITIVE">All positive</option>
-          <option value="ALL_CRITICAL">All critical</option>
+          <option value="">All positive</option>
+          <option value="">All critical</option>
         </select>
       </div>
     </Header>
