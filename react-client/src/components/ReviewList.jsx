@@ -10,7 +10,14 @@ import ReviewEntry from './ReviewEntry.jsx';
 
 const Header = styled.header`
   padding: 15px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
     > p {
+      font-family: Roboto, sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: #333333;
       text-align: left;
       display: inline-block;
     }
@@ -18,6 +25,22 @@ const Header = styled.header`
       float: right;
       margin: 16px 0px;
     }
+    > div > label {
+      font-family: Roboto, sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      color: #333333;
+    }
+`;
+
+const LabelDiv = styled.div`
+  > select {
+    border: 1px solid #ccc;
+    > option {
+      font-family: Roboto;
+      font-weight: 400;
+    }
+  }
 `;
 
 const ReviewList = ({
@@ -40,7 +63,7 @@ const ReviewList = ({
         {' '}
         reviews
       </p>
-      <div>
+      <LabelDiv>
         <label htmlFor="sort-by">Sort by:</label>
         <select id="sort" onChange={handleSelect}>
           <option value="relevant">Most relevant</option>
@@ -52,8 +75,8 @@ const ReviewList = ({
           <option value="lowest_rating">Lowest rating</option>
           <option value="photo_reviews">Photo reviews</option>
         </select>
-      </div>
-      <div>
+      </LabelDiv>
+      <LabelDiv>
         <label htmlFor="filter-by">Filter by:</label>
         <select id="filter" onChange={handleSelect}>
           <option value="all">All stars</option>
@@ -65,7 +88,7 @@ const ReviewList = ({
           <option value="">All positive</option>
           <option value="">All critical</option>
         </select>
-      </div>
+      </LabelDiv>
     </Header>
     <div>
       <ul>

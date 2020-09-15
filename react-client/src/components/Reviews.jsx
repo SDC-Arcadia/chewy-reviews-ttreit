@@ -9,7 +9,9 @@ import ReviewPhotos from './ReviewPhotos.jsx';
 import ReviewList from './ReviewList.jsx';
 
 const ArticleContainer = styled.article`
-  margin: 32px 121.5px 0px;
+  margin-top: 32px;
+  margin-left: 196px;
+  margin-right: 196px;
   padding: 0px 60px;
 `;
 
@@ -19,11 +21,19 @@ const SectionContainer = styled.section`
 `;
 
 const ReviewListContainer = styled.div`
-  display: inline-block;
+  float: left;
+  width: 80%;
+  > h2 {
+    font-family: Roboto, sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+  }
 `;
 
 const ReviewPhotosContainer = styled.div`
   float: right;
+  display: inline-block;
+  width: 20%;
 `;
 
 const axios = require('axios');
