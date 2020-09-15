@@ -64,7 +64,7 @@ app.get('/reviewSummary/:productId', (req, res) => {
   });
 });
 
-app.get('/filterStars/:productId/:starRating', (req, res) => {
+app.get('/filterReviews/:productId/:starRating', (req, res) => {
   const { starRating } = req.params;
   const { productId } = req.params;
   Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
@@ -73,8 +73,8 @@ app.get('/filterStars/:productId/:starRating', (req, res) => {
       res.sendStatus(404);
     } else {
       const match = result.reviews.filter((reviews) => reviews.stars === (Number(starRating)));
-      console.log('Filtered Result: ', match);
-      res.sendStatus(200);
+      res.status(200);
+      res.json(match);
     }
   });
 });

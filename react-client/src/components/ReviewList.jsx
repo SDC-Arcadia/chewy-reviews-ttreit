@@ -20,7 +20,7 @@ const Header = styled.header`
     }
 `;
 
-const ReviewList = ({ summary: { reviewCount }, allReviews }) => (
+const ReviewList = ({ summary: { reviewCount }, allReviews, filterReviews, handleSelect }) => (
   <>
     <h2>
       {reviewCount}
@@ -50,13 +50,13 @@ const ReviewList = ({ summary: { reviewCount }, allReviews }) => (
       </div>
       <div>
         <label htmlFor="filter-by">Filter by:</label>
-        <select>
-          <option value="ALL_STARS">All stars</option>
-          <option value="FIVE_STARS">5 stars only</option>
-          <option value="FOUR_STARS">4 stars only</option>
-          <option value="THREE_STARS">3 stars only</option>
-          <option value="TWO_STARS">2 stars only</option>
-          <option value="ONE_STAR">1 star only</option>
+        <select onChange={handleSelect}>
+          <option value="all">All stars</option>
+          <option value="5">5 stars only</option>
+          <option value="4">4 stars only</option>
+          <option value="3">3 stars only</option>
+          <option value="2">2 stars only</option>
+          <option value="1">1 star only</option>
           <option value="ALL_POSITIVE">All positive</option>
           <option value="ALL_CRITICAL">All critical</option>
         </select>
