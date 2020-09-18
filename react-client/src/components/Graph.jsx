@@ -1,9 +1,10 @@
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const GraphBars = styled.div`
+  display: flex;
   height: 30px;
   max-width: 800px;
   margin: 0 0 0px;
@@ -38,17 +39,37 @@ const GraphBars = styled.div`
   }
 `;
 
-const Graph = ({ stars }) => (
+// eslint-disable-next-line react/prop-types
+const Graph = ({ stars, handleGraphSelect }) => (
   <>
     <p>Filter reviews by star rating</p>
-    {stars.map((star, i) => (
-      <GraphBars key={i} percentage={star} />
+    {Object.entries(stars).reverse().map((star) => (
+      <>
+        <a onClick={handleGraphSelect} role="button" tabIndex={0} onKeyPress={handleGraphSelect}>
+          <span id={star[0]} className="left-span">
+            {star[0]}
+            {' '}
+            Star
+          </span>
+          <span id={star[0]} className="right-span">
+            {star[1]}
+            %
+          </span>
+        </a>
+        <GraphBars key={star[1]} percentage={star[1]} />
+      </>
     ))}
   </>
 );
 
 Graph.propTypes = {
-  stars: PropTypes.arrayOf(Number).isRequired,
+  stars: PropTypes.shape({
+    1: PropTypes.number,
+    2: PropTypes.number,
+    3: PropTypes.number,
+    4: PropTypes.number,
+    5: PropTypes.number,
+  }).isRequired,
 };
 
 export default Graph;

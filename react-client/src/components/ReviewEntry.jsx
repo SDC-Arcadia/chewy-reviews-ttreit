@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import thumbsUp from '../images/thumbs-up.png';
+import oneStar from '../images/rating-1.svg';
+import twoStar from '../images/rating-2.svg';
+import threeStar from '../images/rating-3.svg';
+import fourStar from '../images/rating-4.svg';
+import fiveStar from '../images/rating-5.svg';
 
 const ReviewTitle = styled.div`
   > h4 {
@@ -10,6 +15,7 @@ const ReviewTitle = styled.div`
     font-family: Roboto;
     font-weight: 600;
     font-size: 16px;
+    color: #333333;
   }
 `;
 
@@ -57,15 +63,21 @@ const LikeButton = styled.button`
   }
 `;
 
+const starPicker = {
+  1: oneStar,
+  2: twoStar,
+  3: threeStar,
+  4: fourStar,
+  5: fiveStar,
+};
+
 const ReviewEntry = ({
   author, body, title, stars, likes, createdate, id,
 }) => (
   <ListStyle key={id}>
     <ReviewTitle>
       <span>
-        {stars}
-        {' '}
-        out of 5 stars
+        <img src={starPicker[stars]} alt="" />
       </span>
       <h4>{title}</h4>
     </ReviewTitle>

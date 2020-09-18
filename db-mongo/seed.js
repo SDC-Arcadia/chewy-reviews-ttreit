@@ -27,9 +27,10 @@ const insertSampleData = (type = 'hipster-centric', paras = 5) => {
         };
 
         for (let i = 0; i < randomNum(1000, 2500); i += 1) {
+          const randomName = randomNum(1, 100);
           const review = {
-            title: x.split(',')[0],
-            author: names[randomNum(1, 200)],
+            title: x.split(' ').slice(0, 3).join(' ').concat('!'),
+            author: names[randomName].split('')[0].toUpperCase().concat(names[randomName].slice(1)),
             create_date: randomDate(new Date(2015, 0, 1), new Date()),
             body: x,
             likes: randomNum(1, 50),
