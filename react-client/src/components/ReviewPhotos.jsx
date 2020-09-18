@@ -1,6 +1,7 @@
 /* eslint-disable import/extensions */
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import ReviewPhotoEntry from './ReviewPhotoEntry.jsx';
 // import PropTypes from 'prop-types';
 
@@ -55,5 +56,11 @@ const ReviewPhotos = ({ reviewPhotos }) => (
     </ReviewPhotoEntryGrid>
   </ReviewPhotosContainer>
 );
+
+ReviewPhotos.propTypes = {
+  reviewPhotos: PropTypes.arrayOf(
+    PropTypes.string,
+  ).isRequired,
+};
 
 export default ReviewPhotos;
