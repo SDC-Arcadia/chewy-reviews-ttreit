@@ -5,6 +5,12 @@ import PropTypes from 'prop-types';
 import Graph from './Graph.jsx';
 import Recommended from './Recommended.jsx';
 
+import oneStar from '../images/rating-1.svg';
+import twoStar from '../images/rating-2.svg';
+import threeStar from '../images/rating-3.svg';
+import fourStar from '../images/rating-4.svg';
+import fiveStar from '../images/rating-5.svg';
+
 const GraphContainer = styled.div`
   float: left;
   width: 25%;
@@ -65,6 +71,14 @@ const ReviewSummaryHeader = styled.header`
   padding: 0px 0px 40px;
 `;
 
+const starPicker = {
+  1: oneStar,
+  2: twoStar,
+  3: threeStar,
+  4: fourStar,
+  5: fiveStar,
+};
+
 const ReviewSummary = ({
   summary: {
     reviewCount, averageStars, recommended,
@@ -78,6 +92,7 @@ const ReviewSummary = ({
       </h1>
       <div>
         <span>
+          <img src={starPicker[averageStars]} alt="" />
           <button type="button">
             {reviewCount}
             {' '}
