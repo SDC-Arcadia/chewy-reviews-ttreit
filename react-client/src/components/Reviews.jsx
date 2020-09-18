@@ -48,6 +48,7 @@ class Reviews extends React.Component {
       reviewData: [],
       reviewSummary: {},
       stars: {},
+      reviewPhotos: {},
     };
     this.getReviews = this.getReviews.bind(this);
     this.getReviewSummary = this.getReviewSummary.bind(this);
@@ -55,6 +56,7 @@ class Reviews extends React.Component {
     this.handleGraphSelect = this.handleGraphSelect.bind(this);
     this.filterReviews = this.filterReviews.bind(this);
     this.sortReviews = this.sortReviews.bind(this);
+    this.getReviewPhotos = this.getReviewPhotos.bind(this);
   }
 
   componentDidMount() {
@@ -62,11 +64,12 @@ class Reviews extends React.Component {
     const productId = parsedUrl.searchParams.get('productId');
     this.getReviews(productId);
     this.getReviewSummary(productId);
+    this.getReviewPhotos(productId);
   }
 
   getReviews(productId) {
     const url = `${SERVER_URL}/reviewData/${productId}`;
-    axios.get(url)
+    axios(url)
       .then((response) => this.setState({ reviewData: response.data }))
       .catch((err) => {
         console.log('Error calling endpoint! ', err);
@@ -76,7 +79,7 @@ class Reviews extends React.Component {
   getReviewSummary(productId) {
     const url = `${SERVER_URL}/reviewSummary/${productId}`;
     const starObjectForGraph = {};
-    axios.get(url)
+    axios(url)
       .then((response) => {
         const averageStars = response.data.average_stars;
         const { recommended } = response.data;
@@ -105,6 +108,15 @@ class Reviews extends React.Component {
       });
   }
 
+  getReviewPhotos(productId) {
+    const url = `http://ec2-13-57-207-233.us-west-1.compute.amazonaws.com:3004/review-photos/${productId}`;
+    axios(url)
+      .then((response) => this.setState({ reviewPhotos: response.data.image_urls }))
+      .catch((err) => {
+        console.log('Error calling photo endpoint! ', err);
+      });
+  }
+
   handleSelect(event) {
     console.log(event.target.id);
     const selectType = event.target.id;
@@ -130,7 +142,7 @@ class Reviews extends React.Component {
       this.getReviews(productId);
     } else if (starRating !== '') {
       const url = `${SERVER_URL}/filterReviews/${productId}/${starRating}`;
-      axios.get(url)
+      axios(url)
         .then((response) => this.setState({ reviewData: response.data }))
         .catch((err) => {
           console.log('Error calling endpoint! ', err);
@@ -171,7 +183,7 @@ class Reviews extends React.Component {
   }
 
   render() {
-    const { reviewSummary, reviewData } = this.state;
+    const { reviewSummary, reviewData, reviewPhotos } = this.state;
     const { stars } = this.state;
 
     return (
@@ -196,7 +208,7 @@ class Reviews extends React.Component {
                   />
                 </ReviewListContainer>
                 <ReviewPhotosContainer>
-                  <ReviewPhotos />
+                  <ReviewPhotos reviewPhotos={reviewPhotos} />
                 </ReviewPhotosContainer>
               </SectionContainer>
             </>

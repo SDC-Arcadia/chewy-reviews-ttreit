@@ -18,7 +18,6 @@ const Header = styled.header`
       font-weight: 400;
       font-size: 15px;
       color: #333333;
-      text-align: left;
       display: inline-block;
     }
     > div {

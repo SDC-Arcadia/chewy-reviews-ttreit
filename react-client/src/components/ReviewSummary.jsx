@@ -59,6 +59,9 @@ const ReviewSummaryHeader = styled.header`
     font-size: 16px;
     color: #666666;
     > span > button {
+      &:hover {
+        text-decoration: underline;
+      }
       font-family: inherit;
       font-size: 100%;
       border: 0;
