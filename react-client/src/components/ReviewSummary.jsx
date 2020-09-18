@@ -8,10 +8,26 @@ import Recommended from './Recommended.jsx';
 const GraphContainer = styled.div`
   float: left;
   width: 25%;
+  > a > span {
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #0e70be;
+    cursor: pointer;
+  }
   > p {
     font-family: Roboto, sans-serif;
     font-weight: 500;
     font-size: 15px;
+    color: #333333;
+  }
+  .left-span {
+    float: left;
+    padding-right: 15px;
+  }
+  .right-span {
+    float: right;
+    padding-left: 15px;
   }
 `;
 
@@ -29,6 +45,7 @@ const ReviewSummaryHeader = styled.header`
     font-family: Roboto, sans-serif;
     font-weight: 300;
     font-size: 36px;
+    color: #333333;
   }
   > div {
     font-family: Roboto, sans-serif;
@@ -51,7 +68,8 @@ const ReviewSummaryHeader = styled.header`
 const ReviewSummary = ({
   summary: {
     reviewCount, averageStars, recommended,
-  }, stars,
+  // eslint-disable-next-line react/prop-types
+  }, stars, handleGraphSelect,
 }) => (
   <>
     <ReviewSummaryHeader>
@@ -72,13 +90,13 @@ const ReviewSummary = ({
           {' '}
           {averageStars}
           {' '}
-          out of 5 stars
+          out of 5 Stars
         </span>
       </div>
     </ReviewSummaryHeader>
     <Section>
       <GraphContainer>
-        <Graph stars={stars} />
+        <Graph stars={stars} handleGraphSelect={handleGraphSelect} />
       </GraphContainer>
       <RecommendedContainer>
         <Recommended recommended={recommended} />
@@ -88,7 +106,13 @@ const ReviewSummary = ({
 );
 
 ReviewSummary.propTypes = {
-  stars: PropTypes.arrayOf(Number).isRequired,
+  stars: PropTypes.shape({
+    1: PropTypes.number,
+    2: PropTypes.number,
+    3: PropTypes.number,
+    4: PropTypes.number,
+    5: PropTypes.number,
+  }).isRequired,
   summary: PropTypes.shape({
     averageStars: PropTypes.number,
     product: PropTypes.string,

@@ -10,6 +10,7 @@ const ReviewTitle = styled.div`
     font-family: Roboto;
     font-weight: 600;
     font-size: 16px;
+    color: #333333;
   }
 `;
 

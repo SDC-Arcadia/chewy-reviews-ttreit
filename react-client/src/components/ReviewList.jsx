@@ -53,7 +53,7 @@ const ReviewList = ({
     <h2>
       {reviewCount}
       {' '}
-      reviews
+      Reviews
     </h2>
     <Header>
       <p>
@@ -61,7 +61,7 @@ const ReviewList = ({
         {' '}
         {reviewCount}
         {' '}
-        reviews
+        Reviews
       </p>
       <LabelDiv>
         <label htmlFor="sort-by">Sort by:</label>

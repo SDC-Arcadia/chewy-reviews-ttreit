@@ -6,6 +6,7 @@ const ReviewPhotosContainer = styled.div`
   font-family: Roboto;
   font-weight: 600;
   font-size: 18px;
+  color: #333333;
   float: right;
   display: block;
 `;

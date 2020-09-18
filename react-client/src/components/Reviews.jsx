@@ -27,6 +27,7 @@ const ReviewListContainer = styled.div`
     font-family: Roboto, sans-serif;
     font-weight: 700;
     font-size: 18px;
+    color: #333333;
   }
 `;
 
@@ -46,11 +47,12 @@ class Reviews extends React.Component {
     this.state = {
       reviewData: [],
       reviewSummary: {},
-      stars: [],
+      stars: {},
     };
     this.getReviews = this.getReviews.bind(this);
     this.getReviewSummary = this.getReviewSummary.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleGraphSelect = this.handleGraphSelect.bind(this);
     this.filterReviews = this.filterReviews.bind(this);
     this.sortReviews = this.sortReviews.bind(this);
   }
@@ -73,18 +75,21 @@ class Reviews extends React.Component {
 
   getReviewSummary(productId) {
     const url = `${SERVER_URL}/reviewSummary/${productId}`;
+    const starObjectForGraph = {};
     axios.get(url)
       .then((response) => {
-        const percentageStarred = [];
         const averageStars = response.data.average_stars;
         const { recommended } = response.data;
         const totalStars = response.data.total_stars;
         const reviewCount = response.data.review_count;
         const product = response.data.product_id;
+        let count = 6;
         Object.entries(totalStars).forEach((x) => {
-          percentageStarred.push(Math.round((x[1] / reviewCount) * 100));
+          starObjectForGraph[count -= 1] = Math.round((x[1] / reviewCount) * 100);
         });
-        this.setState({ stars: percentageStarred });
+        this.setState({
+          stars: starObjectForGraph,
+        });
         this.setState({
           reviewSummary: {
             averageStars,
@@ -101,6 +106,7 @@ class Reviews extends React.Component {
   }
 
   handleSelect(event) {
+    console.log(event.target.id);
     const selectType = event.target.id;
     const val = event.target.value;
     if (selectType === 'filter') {
@@ -110,6 +116,11 @@ class Reviews extends React.Component {
     } else {
       throw new Error('Error selecting filter/sort!');
     }
+  }
+
+  handleGraphSelect(event) {
+    const val = Number(event.target.id);
+    this.filterReviews(val);
   }
 
   filterReviews(starRating) {
@@ -132,25 +143,25 @@ class Reviews extends React.Component {
     switch (sortType) {
       case 'newest': {
         const sortByNewest = reviewData.sort((a, b) => new Date(b.create_date)
-        - new Date(a.create_date));
+          - new Date(a.create_date));
         this.setState({ reviewData: sortByNewest });
         break;
       }
       case 'oldest': {
         const sortByOldest = reviewData.sort((a, b) => new Date(a.create_date)
-        - new Date(b.create_date));
+          - new Date(b.create_date));
         this.setState({ reviewData: sortByOldest });
         break;
       }
       case 'highest_rating': {
         const sortByHighestRating = reviewData.sort((a, b) => b.stars
-        - a.stars);
+          - a.stars);
         this.setState({ reviewData: sortByHighestRating });
         break;
       }
       case 'lowest_rating': {
         const sortByLowestRating = reviewData.sort((a, b) => a.stars
-        - b.stars);
+          - b.stars);
         this.setState({ reviewData: sortByLowestRating });
         break;
       }
@@ -172,6 +183,8 @@ class Reviews extends React.Component {
                 summary={reviewSummary}
                 allReviews={reviewData}
                 stars={stars}
+                // eslint-disable-next-line react/jsx-no-bind
+                handleGraphSelect={this.handleGraphSelect.bind(this)}
               />
               <SectionContainer>
                 <ReviewListContainer>

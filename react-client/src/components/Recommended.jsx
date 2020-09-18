@@ -22,11 +22,13 @@ const RadialGraphContainer = styled.div`
     font-family: Roboto, sans-serif;
     font-size: 10px;
     font-weight: 300;
+    color: #333333;
   }
   .sub-text {
     font-family: Roboto, sans-serif;
     font-size: 2px;
     font-weight: 400;
+    color: #333333;
   }
 `;
 
@@ -53,6 +55,7 @@ const ButtonContainer = styled.div`
     font-size: 13px;
     display: block
     text-align: right;
+    color: #333333;
   }
   > p > span {
     display: block;
