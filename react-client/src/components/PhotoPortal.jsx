@@ -28,13 +28,19 @@ const Header = styled.header`
 const Container = styled.div`
   margin: auto;
   background-color: #FFFFFF;
-  width: 30%;
+  width: 40%;
 `;
 
 const PhotoDiv = styled.div`
   float: left;
 `;
 const ReviewDiv = styled.div`
+  > span {
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 16px;
+    color: #666666;
+  }
   overflow: hidden;
 `;
 
@@ -62,7 +68,7 @@ const PhotoPortal = ({ photo, handlePortalClose, allReviews }) => (
         </PhotoDiv>
         <ReviewDiv>
           <span>
-            {allReviews[randomNum(0, 800)].body}
+            {allReviews[randomNum(0, 800)].body.split(' ').slice(0, 30).join(' ').concat('.')}
           </span>
         </ReviewDiv>
       </article>
