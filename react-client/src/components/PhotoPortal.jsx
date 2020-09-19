@@ -19,8 +19,30 @@ const PhotoContainer = styled.div`
 `;
 
 const Header = styled.header`
+margin-bottom: 10%;
+margin-top: 2%;
+.title {
+  float: left;
+}
+.buttons {
+  float: right;
+}
 > span > h2 {
   margin-top: 0;
+  margin-bottom: 0;
+}
+> span > span > button {
+  border: 0.1rem solid #163977;
+  margin: 0px 15px 0 0;
+  padding: 14px 35px;
+  color: #163977;
+  border-radius 4px;
+  background-color: #ffffff;
+  cursor: pointer;
+  vertical-align: middle;
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 18px;
 }
   background-color: #F5F5F5;
 `;
@@ -35,6 +57,7 @@ const PhotoDiv = styled.div`
   float: left;
 `;
 const ReviewDiv = styled.div`
+  margin-top: 10%;
   > span {
     font-family: Roboto;
     font-weight: 400;
@@ -50,10 +73,10 @@ const PhotoPortal = ({ photo, handlePortalClose, allReviews }) => (
   <PhotoContainer>
     <Container>
       <Header>
-        <span>
+        <span className="title">
           <h2>All Photos</h2>
         </span>
-        <span>
+        <span className="buttons">
           <span>
             <button type="button">Previous</button>
           </span>
@@ -62,16 +85,14 @@ const PhotoPortal = ({ photo, handlePortalClose, allReviews }) => (
           </span>
         </span>
       </Header>
-      <article>
-        <PhotoDiv>
-          <img src={photo} alt="" onClick={handlePortalClose} />
-        </PhotoDiv>
-        <ReviewDiv>
-          <span>
-            {allReviews[randomNum(0, 800)].body.split(' ').slice(0, 30).join(' ').concat('.')}
-          </span>
-        </ReviewDiv>
-      </article>
+      <PhotoDiv>
+        <img src={photo} alt="" onClick={handlePortalClose} />
+      </PhotoDiv>
+      <ReviewDiv>
+        <span>
+          {allReviews[randomNum(0, 800)].body.split(' ').slice(0, 30).join(' ').concat('.')}
+        </span>
+      </ReviewDiv>
     </Container>
   </PhotoContainer>
 );
