@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import thumbsUp from '../images/thumbs-up.png';
+import thumbsTransparent from '../images/thumbs-trasnsparent.png';
 import oneStar from '../images/rating-1.svg';
 import twoStar from '../images/rating-2.svg';
 import threeStar from '../images/rating-3.svg';
@@ -42,24 +42,43 @@ const ListStyle = styled.li`
     margin-top: -6px;
     margin-bottom: 20px;
   }
+  .liked {
+    display: inline-block;
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 14px;
+    color: #999999;
+  }
 `;
 const LikeButton = styled.button`
   &:hover {
     color: #163977;
     border-color: #163977;
   }
+  &:focus {
+    background-color: #0E70BE;
+    > span {
+      display: none;
+    }
+    > img {
+      padding: inherit;
+    }
+  }
+
   background: #ffffff;
   cursor: pointer;
   border: 0.1rem solid #dddddd;
   border-radius: 4px;
   box-shadow: 0 0.1rem 0 0 #dddddd;
-  padding: 11px 16px;
+  padding: 1px 11px;
   margin-right: 0.5rem;
   text-align: center;
   font-family: Roboto;
   font-weight: 400;
   > span {
-    margin-right: 0.5rem;
+    padding-top: 12px;
+    padding-right: 1px;
+    float: left;
   }
 `;
 
@@ -97,8 +116,9 @@ const ReviewEntry = ({
     <footer>
       <LikeButton type="button">
         <span>{likes}</span>
-        <img src={thumbsUp} alt="" height="17px" />
+        <img src={thumbsTransparent} alt="" height="35px" />
       </LikeButton>
+      {/* <span className="liked">You liked it!</span> */}
     </footer>
   </ListStyle>
 );
