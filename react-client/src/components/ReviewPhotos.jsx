@@ -71,7 +71,7 @@ class ReviewPhotos extends React.Component {
 
   render() {
     const { portalOn, portalImage } = this.state;
-    const { reviewPhotos } = this.props;
+    const { reviewPhotos, allReviews } = this.props;
     return (
       <>
         <ReviewPhotosContainer>
@@ -87,7 +87,6 @@ class ReviewPhotos extends React.Component {
             <ReviewPhotoEntry
               photo={photo}
               handlePortalCreate={this.handlePortalCreate}
-              handlePortalClose={this.handlePortalClose}
             />
           ))}
         </ReviewPhotoEntryGrid>
@@ -95,7 +94,11 @@ class ReviewPhotos extends React.Component {
           portalOn
           && (
             <PortalWrapper>
-              <PhotoPortal photo={portalImage} handlePortalClose={this.handlePortalClose} />
+              <PhotoPortal
+                photo={portalImage}
+                handlePortalClose={this.handlePortalClose}
+                allReviews={allReviews}
+              />
             </PortalWrapper>
           )
         }
@@ -105,6 +108,17 @@ class ReviewPhotos extends React.Component {
 }
 
 ReviewPhotos.propTypes = {
+  allReviews: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string,
+      author: PropTypes.string,
+      body: PropTypes.string,
+      create_date: PropTypes.string,
+      likes: PropTypes.number,
+      recommended: PropTypes.bool,
+      title: PropTypes.string,
+    }),
+  ).isRequired,
   reviewPhotos: PropTypes.arrayOf(
     PropTypes.string,
   ).isRequired,
