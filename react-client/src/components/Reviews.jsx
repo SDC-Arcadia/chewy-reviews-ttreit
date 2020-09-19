@@ -208,7 +208,9 @@ class Reviews extends React.Component {
                   />
                 </ReviewListContainer>
                 <ReviewPhotosContainer>
-                  <ReviewPhotos reviewPhotos={reviewPhotos} />
+                  <ReviewPhotos
+                    reviewPhotos={reviewPhotos}
+                  />
                 </ReviewPhotosContainer>
               </SectionContainer>
             </>

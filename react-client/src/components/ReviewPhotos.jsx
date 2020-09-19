@@ -3,6 +3,9 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import ReviewPhotoEntry from './ReviewPhotoEntry.jsx';
+import PortalWrapper from './PortalWrapper.jsx';
+import PhotoPortal from './PhotoPortal.jsx';
+
 // import PropTypes from 'prop-types';
 
 const ReviewPhotosContainer = styled.div`
@@ -13,6 +16,7 @@ const ReviewPhotosContainer = styled.div`
   margin-bottom: 1.6rem;
 }
 > div > h3 {
+  text-align: left;
   display: inline-block;
   font-family: Roboto;
   font-weight: 600;
@@ -38,24 +42,67 @@ const ReviewPhotosContainer = styled.div`
 const ReviewPhotoEntryGrid = styled.div`
   display: grid;
   grid-template-columns: auto auto auto auto;
-  grid-gap: 0px;
+  grid-gap: 5px;
 `;
 
-const ReviewPhotos = ({ reviewPhotos }) => (
-  <ReviewPhotosContainer>
-    <div className="header-div">
-      <h3>Customer Photos</h3>
-      <button type="button">
-        <span>See All Photos</span>
-      </button>
-    </div>
-    <ReviewPhotoEntryGrid>
-      {reviewPhotos.slice(0, 8).map((photo) => (
-        <ReviewPhotoEntry photo={photo} />
-      ))}
-    </ReviewPhotoEntryGrid>
-  </ReviewPhotosContainer>
-);
+class ReviewPhotos extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      portalOn: false,
+      portalImage: '',
+    };
+    this.handlePortalCreate = this.handlePortalCreate.bind(this);
+    this.handlePortalClose = this.handlePortalClose.bind(this);
+  }
+
+  handlePortalCreate(photo) {
+    this.setState({
+      portalOn: true,
+      portalImage: photo,
+    });
+  }
+
+  handlePortalClose() {
+    this.setState({
+      portalOn: false,
+    });
+  }
+
+  render() {
+    const { portalOn, portalImage } = this.state;
+    const { reviewPhotos } = this.props;
+    return (
+      <>
+        <ReviewPhotosContainer>
+          <div className="header-div">
+            <h3>Customer Photos</h3>
+            <button type="button">
+              <span>See All Photos</span>
+            </button>
+          </div>
+        </ReviewPhotosContainer>
+        <ReviewPhotoEntryGrid>
+          {reviewPhotos.slice(0, 8).map((photo) => (
+            <ReviewPhotoEntry
+              photo={photo}
+              handlePortalCreate={this.handlePortalCreate}
+              handlePortalClose={this.handlePortalClose}
+            />
+          ))}
+        </ReviewPhotoEntryGrid>
+        {
+          portalOn
+          && (
+            <PortalWrapper>
+              <PhotoPortal photo={portalImage} handlePortalClose={this.handlePortalClose} />
+            </PortalWrapper>
+          )
+        }
+      </>
+    );
+  }
+}
 
 ReviewPhotos.propTypes = {
   reviewPhotos: PropTypes.arrayOf(
