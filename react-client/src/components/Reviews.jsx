@@ -109,7 +109,7 @@ class Reviews extends React.Component {
   }
 
   getReviewPhotos(productId) {
-    const url = `http://ec2-13-57-207-233.us-west-1.compute.amazonaws.com:3004/review-photos/${productId}`;
+    const url = `http://54.67.122.61:3004/review-photos/${productId}`;
     axios(url)
       .then((response) => this.setState({ reviewPhotos: response.data.image_urls }))
       .catch((err) => {
