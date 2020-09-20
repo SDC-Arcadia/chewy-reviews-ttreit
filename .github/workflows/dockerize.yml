@@ -11,16 +11,24 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: docker login
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PW:  ${{ secrets.DOCKER_PW }}
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PW:  ${{ secrets.DOCKER_PW }}
         run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PW
-      - name: docker build chris-chewy-reviews
+        docker login -u $DOCKER_USER -p $DOCKER_PW
+        - name: docker build chris-chewy-reviews
         run: docker build -f Dockerfile.build -t feckwame/chris-chewy-reviews:app .
-      - name: docker build mongo_seeding
+        - name: docker build mongo_seeding
         run: docker build -f Dockerfile.seed -t feckwame/chris-chewy-reviews:db_seeding .
-      - name: docker push
+        - name: docker push
         run: |
-          docker push feckwame/chris-chewy-reviews:app
-          docker push feckwame/chris-chewy-reviews:db_seeding
+        docker push feckwame/chris-chewy-reviews:app
+        docker push feckwame/chris-chewy-reviews:db_seeding
+      - name: upload bundle to S3
+      - uses: actions/checkout@v2
+        with:
+          AWS_REGION: 'us-west-1'
+          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SOURCE_DIR: ./react-client/dist/reviews.prod-bundle.js
