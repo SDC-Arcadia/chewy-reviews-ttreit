@@ -26,6 +26,7 @@ jobs:
           docker push feckwame/chris-chewy-reviews:db_seeding
       - name: upload bundle to S3
       - uses: actions/checkout@v2
+      - uses: shallwefootball/s3-upload-action@master
         with:
           AWS_REGION: 'us-west-1'
           S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
