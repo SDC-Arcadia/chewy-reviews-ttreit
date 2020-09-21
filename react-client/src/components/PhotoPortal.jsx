@@ -90,7 +90,7 @@ const PhotoPortal = ({ photo, handlePortalClose, allReviews }) => (
       </PhotoDiv>
       <ReviewDiv>
         <span>
-          {allReviews[randomNum(0, 800)].body.split(' ').slice(0, 30).join(' ').concat('.')}
+          {allReviews[randomNum(0, 99)].body.split(' ').slice(0, 30).join(' ').concat('.')}
         </span>
       </ReviewDiv>
     </Container>
