@@ -5,7 +5,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import ReviewSummary from './ReviewSummary.jsx';
-import ReviewPhotos from './ReviewPhotos.jsx';
 import ReviewList from './ReviewList.jsx';
 
 const ArticleContainer = styled.article`
@@ -31,15 +30,9 @@ const ReviewListContainer = styled.div`
   }
 `;
 
-const ReviewPhotosContainer = styled.div`
-  float: right;
-  display: inline-block;
-  width: 20%;
-`;
-
 const axios = require('axios');
 
-const SERVER_URL = 'http://ec2-204-236-154-81.us-west-1.compute.amazonaws.com:3007';
+const SERVER_URL = 'http://localhost:3007'; // Changed
 
 class Reviews extends React.Component {
   constructor(props) {
@@ -48,7 +41,6 @@ class Reviews extends React.Component {
       reviewData: [],
       reviewSummary: {},
       stars: {},
-      reviewPhotos: {},
     };
     this.getReviews = this.getReviews.bind(this);
     this.getReviewSummary = this.getReviewSummary.bind(this);
@@ -64,7 +56,6 @@ class Reviews extends React.Component {
     const productId = parsedUrl.searchParams.get('productId');
     this.getReviews(productId);
     this.getReviewSummary(productId);
-    this.getReviewPhotos(productId);
   }
 
   getReviews(productId) {
@@ -105,15 +96,6 @@ class Reviews extends React.Component {
       })
       .catch((err) => {
         console.log('Error calling endpoint! ', err);
-      });
-  }
-
-  getReviewPhotos(productId) {
-    const url = `http://54.67.122.61:3004/review-photos/${productId}`;
-    axios(url)
-      .then((response) => this.setState({ reviewPhotos: response.data.image_urls }))
-      .catch((err) => {
-        console.log('Error calling photo endpoint! ', err);
       });
   }
 
@@ -183,7 +165,7 @@ class Reviews extends React.Component {
   }
 
   render() {
-    const { reviewSummary, reviewData, reviewPhotos } = this.state;
+    const { reviewSummary, reviewData } = this.state;
     const { stars } = this.state;
 
     return (
@@ -207,12 +189,6 @@ class Reviews extends React.Component {
                     handleSelect={this.handleSelect.bind(this)}
                   />
                 </ReviewListContainer>
-                <ReviewPhotosContainer>
-                  <ReviewPhotos
-                    allReviews={reviewData}
-                    reviewPhotos={reviewPhotos}
-                  />
-                </ReviewPhotosContainer>
               </SectionContainer>
             </>
           )
