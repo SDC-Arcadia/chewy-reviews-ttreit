@@ -48,7 +48,6 @@ class Reviews extends React.Component {
     this.handleGraphSelect = this.handleGraphSelect.bind(this);
     this.filterReviews = this.filterReviews.bind(this);
     this.sortReviews = this.sortReviews.bind(this);
-    this.getReviewPhotos = this.getReviewPhotos.bind(this);
   }
 
   componentDidMount() {
