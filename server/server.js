@@ -10,6 +10,7 @@ const app = express();
 app.use(cors());
 app.use(express.static(path.join(__dirname, '/../react-client/dist')));
 
+//  GET Requests
 app.get('/reviewData/:productId', (req, res) => {
   const { productId } = req.params;
   Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
@@ -82,6 +83,8 @@ app.get('/filterReviews/:productId/:starRating', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../react-client/dist', 'index.html'));
 });
+
+//  POST requests
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
