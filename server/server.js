@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const Reviews = require('../db-mongo/Review.js');
@@ -7,7 +8,10 @@ const Reviews = require('../db-mongo/Review.js');
 const PORT = process.env.PORT || 3007;
 const app = express();
 
+// Middleware
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../react-client/dist')));
 
 //  GET Requests
@@ -85,6 +89,33 @@ app.get('*', (req, res) => {
 });
 
 //  POST requests
+app.post('/addReview/:productId', (req, res) => {
+  const { productId } = req.params;
+  let reqBody = JSON.stringify(req.body);
+  reqBody = JSON.parse(reqBody);
+  const query = productId.toUpperCase();
+
+  Reviews.findOne(
+    { product_id: query },
+    (err, result) => {
+      if (err) {
+        console.log(`Error querying database for ${query}`);
+        console.error(err);
+        res.sendStatus(404);
+      } else {
+        result.reviews.push(reqBody);
+        result.save((saveError, updatedReview) => {
+          if (saveError) {
+            console.error(saveError);
+          } else {
+            console.log(updatedReview);
+            res.sendStatus(200);
+          }
+        });
+      }
+    },
+  );
+});
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
