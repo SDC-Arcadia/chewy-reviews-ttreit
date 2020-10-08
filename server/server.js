@@ -88,13 +88,18 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../react-client/dist', 'index.html'));
 });
 
-//  POST requests
+//  POST request
 app.post('/addReview/:productId', (req, res) => {
   const { productId } = req.params;
+  // If I don't stringify req.body and then console.log req.body I get [object, Object]
+  //  I don't understand why but if I stringify, then parse it works fine.
+  //  TODO figure out why this is happening and fix it
   let reqBody = JSON.stringify(req.body);
   reqBody = JSON.parse(reqBody);
   const query = productId.toUpperCase();
 
+  //  I was not able to figure out findOneAndUpdate when pushing to an array.
+  //  TODO refactor to use findOneAndUpdate
   Reviews.findOne(
     { product_id: query },
     (err, result) => {
@@ -104,17 +109,27 @@ app.post('/addReview/:productId', (req, res) => {
         res.sendStatus(404);
       } else {
         result.reviews.push(reqBody);
-        result.save((saveError, updatedReview) => {
+        result.save((saveError, updatedReviews) => {
           if (saveError) {
             console.error(saveError);
           } else {
-            console.log(updatedReview);
+            const { reviews } = updatedReviews;
+            //  log last insertion
+            console.log(reviews[reviews.length - 1]);
             res.sendStatus(200);
           }
         });
       }
     },
   );
+});
+
+// Update Review Request
+app.patch('/updateReview/:productId', (req, res) => {
+  const { productId } = req.params;
+  const query = productId.toUpperCase();
+  console.log('req.body', req.body);
+  console.log('query', query);
 });
 
 app.listen(PORT, () => {
