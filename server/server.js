@@ -185,6 +185,26 @@ app.patch('/updateReviewTitle/:productId', (req, res) => {
   );
 });
 
+app.patch('/updateReviewAuthor/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  //  TODO Refactor - this method is deprecated
+  Reviews.update(
+    // eslint-disable-next-line
+    { "product_id": productNumber, "reviews._id": updateData._id },
+    // eslint-disable-next-line
+    { "$set": { "reviews.$.author": updateData.author }},
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.sendStatus(200);
+      }
+    },
+  );
+});
+
 app.patch('/updateReviewBody/:productId', (req, res) => {
   const { productId } = req.params;
   const updateData = req.body;
@@ -195,6 +215,26 @@ app.patch('/updateReviewBody/:productId', (req, res) => {
     { "product_id": productNumber, "reviews._id": updateData._id },
     // eslint-disable-next-line
     { "$set": { "reviews.$.body": updateData.body }},
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.sendStatus(200);
+      }
+    },
+  );
+});
+
+app.patch('/updateReviewRecommended/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  //  TODO Refactor - this method is deprecated
+  Reviews.update(
+    // eslint-disable-next-line
+    { "product_id": productNumber, "reviews._id": updateData._id },
+    // eslint-disable-next-line
+    { "$set": { "reviews.$.recommended": updateData.recommended }},
     (err) => {
       if (err) {
         console.log(err);
