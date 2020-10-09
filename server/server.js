@@ -104,7 +104,7 @@ app.post('/addReview/:productId', (req, res) => {
     { product_id: query },
     (err, result) => {
       if (err) {
-        console.log(`Error querying database for ${query}`);
+        console.log(`Error querying database for product # ${query}`);
         console.error(err);
         res.sendStatus(404);
       } else {
@@ -124,12 +124,26 @@ app.post('/addReview/:productId', (req, res) => {
   );
 });
 
-// Update Review Request
-app.patch('/updateReview/:productId', (req, res) => {
+// Update Reviews routes - 1 per review field
+app.patch('/updateReviewBody/:productId', (req, res) => {
   const { productId } = req.params;
-  const query = productId.toUpperCase();
-  console.log('req.body', req.body);
-  console.log('query', query);
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+
+  //  TODO Refactor - this method is deprecated
+  Reviews.update(
+    // eslint-disable-next-line
+    { "product_id": productNumber, "reviews._id": updateData._id },
+    // eslint-disable-next-line
+    { "$set": { "reviews.$.body": updateData.body }},
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.sendStatus(200);
+      }
+    },
+  );
 });
 
 app.listen(PORT, () => {
