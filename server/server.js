@@ -145,6 +145,28 @@ app.patch('/updateReviewlikes/:productId', (req, res) => {
   );
 });
 
+app.patch('/updateReviewStars/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  //  TODO Refactor - this method is deprecated
+  Reviews.update(
+    // eslint-disable-next-line
+    { "product_id": productNumber, "reviews._id": updateData._id },
+    // eslint-disable-next-line
+    { "$set": { "reviews.$.stars": updateData.stars }},
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.sendStatus(200);
+      }
+    },
+  );
+});
+
+
+
 app.patch('/updateReviewBody/:productId', (req, res) => {
   const { productId } = req.params;
   const updateData = req.body;
