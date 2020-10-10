@@ -245,6 +245,19 @@ app.patch('/updateReviewRecommended/:productId', (req, res) => {
   );
 });
 
+// Delete review route
+app.patch('/updateReview/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  console.log('updateData', updateData._id);
+
+  Reviews.updateOne(
+    { product_id: productNumber },
+    { $pullAll: { _id: [updateData._id] } },
+  );
+});
+
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`listening on port http://localhost:${PORT}`);
