@@ -250,10 +250,13 @@ app.patch('/updateReview/:productId', (req, res) => {
   const { productId } = req.params;
   const updateData = req.body;
   const productNumber = productId.toUpperCase();
+  // eslint-disable-next-line
   console.log('updateData', updateData._id);
+  console.log(res);
 
   Reviews.updateOne(
     { product_id: productNumber },
+    // eslint-disable-next-line
     { $pullAll: { _id: [updateData._id] } },
   );
 });
