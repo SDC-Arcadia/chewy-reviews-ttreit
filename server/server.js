@@ -134,7 +134,7 @@ app.patch('/updateReviewlikes/:productId', (req, res) => {
     // eslint-disable-next-line
     { "product_id": productNumber, "reviews._id": updateData._id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.likes": updateData.likes }},
+    { "$set": { "reviews.$.likes": updateData.likes } },
     (err) => {
       if (err) {
         console.log(err);
@@ -154,7 +154,7 @@ app.patch('/updateReviewStars/:productId', (req, res) => {
     // eslint-disable-next-line
     { "product_id": productNumber, "reviews._id": updateData._id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.stars": updateData.stars }},
+    { "$set": { "reviews.$.stars": updateData.stars } },
     (err) => {
       if (err) {
         console.log(err);
@@ -174,7 +174,7 @@ app.patch('/updateReviewTitle/:productId', (req, res) => {
     // eslint-disable-next-line
     { "product_id": productNumber, "reviews._id": updateData._id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.title": updateData.title }},
+    { "$set": { "reviews.$.title": updateData.title } },
     (err) => {
       if (err) {
         console.log(err);
@@ -194,7 +194,7 @@ app.patch('/updateReviewAuthor/:productId', (req, res) => {
     // eslint-disable-next-line
     { "product_id": productNumber, "reviews._id": updateData._id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.author": updateData.author }},
+    { "$set": { "reviews.$.author": updateData.author } },
     (err) => {
       if (err) {
         console.log(err);
@@ -214,7 +214,7 @@ app.patch('/updateReviewBody/:productId', (req, res) => {
     // eslint-disable-next-line
     { "product_id": productNumber, "reviews._id": updateData._id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.body": updateData.body }},
+    { "$set": { "reviews.$.body": updateData.body } },
     (err) => {
       if (err) {
         console.log(err);
@@ -234,7 +234,7 @@ app.patch('/updateReviewRecommended/:productId', (req, res) => {
     // eslint-disable-next-line
     { "product_id": productNumber, "reviews._id": updateData._id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.recommended": updateData.recommended }},
+    { "$set": { "reviews.$.recommended": updateData.recommended } },
     (err) => {
       if (err) {
         console.log(err);
@@ -246,6 +246,9 @@ app.patch('/updateReviewRecommended/:productId', (req, res) => {
 });
 
 // Delete review route
+// Help Desk with Troy - he said this is not a sustainable model so just delete a whole item
+//  TODO - come back and learn how to delete from an array
+//  Following app.patch is WIP
 app.patch('/updateReview/:productId', (req, res) => {
   const { productId } = req.params;
   const updateData = req.body;
@@ -259,6 +262,20 @@ app.patch('/updateReview/:productId', (req, res) => {
     // eslint-disable-next-line
     { $pullAll: { _id: [updateData._id] } },
   );
+});
+
+//  Delete product
+app.delete('/deleteProduct/:productId', (req, res) => {
+  const { productId } = req.params;
+  Reviews.deleteOne({ product_id: productId.toUpperCase() },
+    (err) => {
+      if (err) {
+        console.error(err);
+        res.sendStatus(404);
+      } else {
+        res.sendStatus(200);
+      }
+    });
 });
 
 app.listen(PORT, () => {
