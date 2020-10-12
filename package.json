@@ -2,6 +2,7 @@
   "name": "chris-chewy-description",
   "version": "1.0.0",
   "description": "RPT22-FEC_KWAME",
+  "engines": {"node": ">=14.13.1"},
   "scripts": {
     "start-server": "nodemon server/server.js",
     "build-dev": "webpack --config webpack.dev.js --watch",
