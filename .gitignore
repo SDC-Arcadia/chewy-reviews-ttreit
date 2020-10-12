@@ -4,3 +4,4 @@ example.http
 reviews.dev-bundle.js
 data
 scrap
+*.csv
