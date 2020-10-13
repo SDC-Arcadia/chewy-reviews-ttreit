@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const Reviews = require('../db-mongo/Review.js');
@@ -7,7 +8,10 @@ const Reviews = require('../db-mongo/Review.js');
 const PORT = process.env.PORT || 3007;
 const app = express();
 
+// Middleware
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../react-client/dist')));
 
 //  GET Requests
@@ -84,7 +88,195 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/../react-client/dist', 'index.html'));
 });
 
-//  POST requests
+//  POST request
+app.post('/addReview/:productId', (req, res) => {
+  const { productId } = req.params;
+  // If I don't stringify req.body and then console.log req.body I get [object, Object]
+  //  I don't understand why but if I stringify, then parse it works fine.
+  //  TODO figure out why this is happening and fix it
+  let reqBody = JSON.stringify(req.body);
+  reqBody = JSON.parse(reqBody);
+  const query = productId.toUpperCase();
+
+  //  I was not able to figure out findOneAndUpdate when pushing to an array.
+  //  TODO refactor to use findOneAndUpdate
+  Reviews.findOne(
+    { product_id: query },
+    (err, result) => {
+      if (err) {
+        console.log(`Error querying database for product # ${query}`);
+        console.error(err);
+        res.sendStatus(404);
+      } else {
+        result.reviews.push(reqBody);
+        result.save((saveError, updatedReviews) => {
+          if (saveError) {
+            console.error(saveError);
+          } else {
+            const { reviews } = updatedReviews;
+            //  log last insertion
+            console.log(reviews[reviews.length - 1]);
+            res.sendStatus(200);
+          }
+        });
+      }
+    },
+  );
+});
+
+// Update Reviews routes - 1 per review field
+app.patch('/updateReviewlikes/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  //  TODO Refactor - this method is deprecated
+  Reviews.update(
+    // eslint-disable-next-line
+    { "product_id": productNumber, "reviews._id": updateData._id },
+    // eslint-disable-next-line
+    { "$set": { "reviews.$.likes": updateData.likes } },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.sendStatus(200);
+      }
+    },
+  );
+});
+
+app.patch('/updateReviewStars/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  //  TODO Refactor - this method is deprecated
+  Reviews.update(
+    // eslint-disable-next-line
+    { "product_id": productNumber, "reviews._id": updateData._id },
+    // eslint-disable-next-line
+    { "$set": { "reviews.$.stars": updateData.stars } },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.sendStatus(200);
+      }
+    },
+  );
+});
+
+app.patch('/updateReviewTitle/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  //  TODO Refactor - this method is deprecated
+  Reviews.update(
+    // eslint-disable-next-line
+    { "product_id": productNumber, "reviews._id": updateData._id },
+    // eslint-disable-next-line
+    { "$set": { "reviews.$.title": updateData.title } },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.sendStatus(200);
+      }
+    },
+  );
+});
+
+app.patch('/updateReviewAuthor/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  //  TODO Refactor - this method is deprecated
+  Reviews.update(
+    // eslint-disable-next-line
+    { "product_id": productNumber, "reviews._id": updateData._id },
+    // eslint-disable-next-line
+    { "$set": { "reviews.$.author": updateData.author } },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.sendStatus(200);
+      }
+    },
+  );
+});
+
+app.patch('/updateReviewBody/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  //  TODO Refactor - this method is deprecated
+  Reviews.update(
+    // eslint-disable-next-line
+    { "product_id": productNumber, "reviews._id": updateData._id },
+    // eslint-disable-next-line
+    { "$set": { "reviews.$.body": updateData.body } },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.sendStatus(200);
+      }
+    },
+  );
+});
+
+app.patch('/updateReviewRecommended/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  //  TODO Refactor - this method is deprecated
+  Reviews.update(
+    // eslint-disable-next-line
+    { "product_id": productNumber, "reviews._id": updateData._id },
+    // eslint-disable-next-line
+    { "$set": { "reviews.$.recommended": updateData.recommended } },
+    (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.sendStatus(200);
+      }
+    },
+  );
+});
+
+// Delete review route
+// Help Desk with Troy - he said this is not a sustainable model so just delete a whole item
+//  TODO - come back and learn how to delete from an array
+//  Following app.patch is WIP
+app.patch('/updateReview/:productId', (req, res) => {
+  const { productId } = req.params;
+  const updateData = req.body;
+  const productNumber = productId.toUpperCase();
+  // eslint-disable-next-line
+  console.log('updateData', updateData._id);
+  console.log(res);
+
+  Reviews.updateOne(
+    { product_id: productNumber },
+    // eslint-disable-next-line
+    { $pullAll: { _id: [updateData._id] } },
+  );
+});
+
+//  Delete product
+app.delete('/deleteProduct/:productId', (req, res) => {
+  const { productId } = req.params;
+  Reviews.deleteOne({ product_id: productId.toUpperCase() },
+    (err) => {
+      if (err) {
+        console.error(err);
+        res.sendStatus(404);
+      } else {
+        res.sendStatus(200);
+      }
+    });
+});
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console

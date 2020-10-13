@@ -10,12 +10,12 @@ const reviewSchema = new mongoose.Schema(
     product_id: String,
     reviews: [
       {
-        title: String,
-        author: String,
-        create_date: String,
-        body: String,
-        likes: { type: Number, default: 0 },
-        stars: { type: Number, default: 0 },
+        title: { type: String, required: true },
+        author: { type: String, required: true },
+        create_date: { type: Date, default: Date.now },
+        body: { type: String, required: true },
+        likes: { type: Number, default: 0, required: true },
+        stars: { type: Number, default: 0, required: true },
         recommended: Boolean,
       },
     ],
