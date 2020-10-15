@@ -5,9 +5,11 @@ const { pipeline } = require('stream');
 const util = require('util');
 //const fs = require('fs');
 
-async function * generateFakeReviews () {
+function generateFakeReviews (filename) {
+  let header = createWriteStream(filename);
+  header.write('productid, likes, stars, title, author, body, recommended\n');
   let counter = 0;
-  for (i = 0; i < 10; i++) {
+  for (i = 0; i < 10000000; i++) {
     let randomNumberOfReviews = Math.floor(Math.random() * 5) + 1;
     for (j = randomNumberOfReviews; j > 0; j--) {
       let productId = i + 1;
@@ -24,34 +26,14 @@ async function * generateFakeReviews () {
       counter ++;
       //  console.log('total reviews', counter);
       //  console.log('**', review);
+      let reviewsWriteStream = createWriteStream(filename, {flags: 'a'});
+      reviewsWriteStream.write(review);
     }
   }
+  console.log (`Total Reviews: ${counter}`)
 }
 
-const readable = Readable.from(generateFakeReviews());
-
-readable.on('data', (chunk) => {
-  console.log('readable', chunk);
-});
-
-
-const writable = createWriteStream('./review.csv');
-
-pipeline(readable, writable, (err, value) => {
-  if (err) {
-    console.error(err);
-  } else {
-
-  }
-});
-
-const pipelinePromise = util.promisify(pipeline);
-pipelinePromise(readable, writable)
-  .then((value) => {
-    console.log(value, 'value returned');
-  })
-  .catch(console.error);
-
+generateFakeReviews('reviews.csv');
 
 //TODO review stream pipeline and how streaming and pipeline work
 

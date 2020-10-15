@@ -1,3 +1,5 @@
 node_modules/*
 react-client/dist
 db-mongo/hiCapSeeder.js
+db-mongo/hiCapSeeder2.js
+db-mongo/fsPractice.js
