@@ -3,7 +3,7 @@ const { createReadStream, createWriteStream } = require('graceful-fs')
 
 function generateFakeReviews (itemQuantity, filename) {
   let header = createWriteStream(filename);
-  header.write('productid, likes, stars, title, author, body, recommended\n');
+  header.write('id,product_id,likes,stars,title,author,create_date,body,recommended\n');
   let counter = 0;
 
   const reviewsWriteStream = createWriteStream(filename, {flags: 'a'});
@@ -14,15 +14,17 @@ function generateFakeReviews (itemQuantity, filename) {
         let randomNumberOfReviews = Math.floor(Math.random() * 5) + 1;
 
         for (j = randomNumberOfReviews; j > 0; j--) {
+          let id = counter + 1;
           let productId = i + 1;
           let fakeLikes = faker.random.number(105);
           let fakeStars = faker.random.number(5);
           let fakeTitle = faker.lorem.sentence();
           let fakeAuthor = faker.name.findName();
+          let fakeDate = faker.date.recent();
           let fakeBody = faker.lorem.paragraph();
           let fakeRecommended = faker.random.boolean();
 
-          let review = `${productId}, ${fakeLikes}, ${fakeStars}, ${fakeTitle}, ${fakeAuthor}, ${fakeBody}, ${fakeRecommended}\n`;
+          let review = `${id},${productId},${fakeLikes},${fakeStars},"${fakeTitle}","${fakeAuthor}","${fakeDate}","${fakeBody}",${fakeRecommended}\n`;
           counter ++;
           if (!reviewsWriteStream.write(review)) {
             await new Promise(resolve => reviewsWriteStream.once('drain', resolve));
@@ -35,5 +37,5 @@ function generateFakeReviews (itemQuantity, filename) {
 
 }
 
-generateFakeReviews(10000000, 'hiCap2.csv');
+generateFakeReviews(5, 'test.csv');
 
