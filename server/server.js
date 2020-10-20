@@ -245,8 +245,23 @@ app.patch('/updateReviewRecommended/:productId', (req, res) => {
   );
 });
 
+//  Delete product
+app.delete('/deleteProduct/:productId', (req, res) => {
+  const { productId } = req.params;
+  Reviews.deleteOne({ product_id: productId.toUpperCase() },
+    (err) => {
+      if (err) {
+        console.error(err);
+        res.sendStatus(404);
+      } else {
+        res.sendStatus(200);
+      }
+    });
+});
+
 // Delete review route
-// Help Desk with Troy - he said this is not a sustainable model so just delete a whole item
+// Help Desk with Troy - he said this is not a sustainable model and recommended I setup a way to
+//  delete an item for now, rather than a review.
 //  TODO - come back and learn how to delete from an array
 //  Following app.patch is WIP
 // app.patch('/updateReview/:productId', (req, res) => {
@@ -263,20 +278,6 @@ app.patch('/updateReviewRecommended/:productId', (req, res) => {
 //     { $pullAll: { _id: [updateData._id] } },
 //   );
 // });
-
-//  Delete product
-app.delete('/deleteProduct/:productId', (req, res) => {
-  const { productId } = req.params;
-  Reviews.deleteOne({ product_id: productId.toUpperCase() },
-    (err) => {
-      if (err) {
-        console.error(err);
-        res.sendStatus(404);
-      } else {
-        res.sendStatus(200);
-      }
-    });
-});
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
