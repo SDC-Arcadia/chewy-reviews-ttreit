@@ -30,12 +30,12 @@ function generateFakeReviews (itemQuantity, filename) {
             await new Promise(resolve => reviewsWriteStream.once('drain', resolve));
           }
           }
-        } //end loop
+        }
         console.log (`Total Reviews: ${counter}`)
-    })(); // ()???
+    })();
 
 
 }
 
-generateFakeReviews(5, 'test.csv');
+generateFakeReviews(10000000, 'reviews.csv');
 

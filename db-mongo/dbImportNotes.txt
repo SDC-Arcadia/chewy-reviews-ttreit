@@ -16,9 +16,13 @@ CREATE TABLE reviews (
 
 Import from CSV
 
-LOAD DATA LOCAL INFILE '/Users/Tammy/HackReactor/SDC/chewy-reviews-ttreit/db-mongo/test.csv'
+LOAD DATA LOCAL INFILE '/Users/Tammy/HackReactor/SDC/chewy-reviews-ttreit/db-mongo/reviews.csv'
 INTO TABLE reviews
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
+
+Mongo Setup
+
+mongoimport -d chewy -c reviews --type csv --file /Users/Tammy/HackReactor/SDC/chewy-reviews-ttreit/db-mongo/reviews.csv --headerline
