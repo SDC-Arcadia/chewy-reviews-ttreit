@@ -25,9 +25,8 @@ app.get('/reviewData/:productId', (req, res) => {
       res.sendStatus(404);
     } else {
       console.log('RESULT', result);
-      const { reviews } = result;
       res.status(200);
-      res.json(reviews);
+      res.json(result);
     }
   });
 });
