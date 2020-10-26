@@ -25,6 +25,35 @@ ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS;
 
+***mySQL Index***
+CREATE INDEX product_index
+ON reviews(product_id);
+
+***mySQL POST test***
+INSERT INTO reviews(product_id,likes,stars,title,author,create_date,body,recommended)
+VALUES(9999771,10,5,'TEST TITLE','TEST AUTHOR','Sun Oct 25 2020 09:00:59 GMT-0700 (Pacific Daylight Time)','TEST BODY', 'true');
+
+
 ***Mongo Setup***
 
 mongoimport -d chewy -c reviews --type csv --file /Users/Tammy/HackReactor/SDC/chewy-reviews-ttreit/db-mongo/reviews.csv --headerline
+
+***Mongo Index***
+db.reviews.createIndex( { product_id: -1 } )
+
+***Mongo Test POST record***
+
+db.reviews.insertOne(
+{ "product_id" : 71, "likes" : 10, "stars" : 5, "title" : "This is a test record", "author" : "Tammy Treit", "create_date" : "Sun Oct 25 2020 06:57:59 GMT-0700 (Pacific Daylight Time)", "body" : "Test post body", "recommended" : "false" }
+)
+
+db.reviews.insertOne(
+{ "product_id" : 9999771, "likes" : 10, "stars" : 5, "title" : "TEST RECORD", "author" : "Tammy Treit", "create_date" : "Sun Oct 25 2020 06:57:59 GMT-0700 (Pacific Daylight Time)", "body" : "Test post body", "recommended" : "true" }
+)
+
+***Mongo Test GET record***
+ > db.reviews.find( { "product_id": 9999000 } ).explain("executionStats")
+
+ ***Mongo System Profiler***
+db.system.profile.find()
+
