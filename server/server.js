@@ -16,8 +16,10 @@ app.use(express.static(path.join(__dirname, '/../react-client/dist')));
 
 //  GET Requests
 app.get('/reviewData/:productId', (req, res) => {
-  const { productId } = req.params;
-  Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
+  let { productId } = req.params;
+  productId = parseInt(productId, 10);
+  console.log('PRODID', productId, typeof productId);
+  Reviews.find({ product_id: productId }, (err, result) => {
     if (!result) {
       console.log('Error querying database! ', err);
       res.sendStatus(404);
