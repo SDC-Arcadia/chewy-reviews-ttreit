@@ -245,25 +245,6 @@ app.patch('/updateReviewRecommended/:productId', (req, res) => {
   );
 });
 
-// Delete review route
-// Help Desk with Troy - he said this is not a sustainable model so just delete a whole item
-//  TODO - come back and learn how to delete from an array
-//  Following app.patch is WIP
-app.patch('/updateReview/:productId', (req, res) => {
-  const { productId } = req.params;
-  const updateData = req.body;
-  const productNumber = productId.toUpperCase();
-  // eslint-disable-next-line
-  console.log('updateData', updateData._id);
-  console.log(res);
-
-  Reviews.updateOne(
-    { product_id: productNumber },
-    // eslint-disable-next-line
-    { $pullAll: { _id: [updateData._id] } },
-  );
-});
-
 //  Delete product
 app.delete('/deleteProduct/:productId', (req, res) => {
   const { productId } = req.params;
@@ -277,6 +258,26 @@ app.delete('/deleteProduct/:productId', (req, res) => {
       }
     });
 });
+
+// Delete review route
+// Help Desk with Troy - he said this is not a sustainable model and recommended I setup a way to
+//  delete an item for now, rather than a review.
+//  TODO - come back and learn how to delete from an array
+//  Following app.patch is WIP
+// app.patch('/updateReview/:productId', (req, res) => {
+//   const { productId } = req.params;
+//   const updateData = req.body;
+//   const productNumber = productId.toUpperCase();
+//   // eslint-disable-next-line
+//   console.log('updateData', updateData._id);
+//   console.log(res);
+
+//   Reviews.updateOne(
+//     { product_id: productNumber },
+//     // eslint-disable-next-line
+//     { $pullAll: { _id: [updateData._id] } },
+//   );
+// });
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
