@@ -24,6 +24,7 @@ app.get('/reviewData/:productId', (req, res) => {
       console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
+      console.log('RESULT', result);
       const { reviews } = result;
       res.status(200);
       res.json(reviews);
