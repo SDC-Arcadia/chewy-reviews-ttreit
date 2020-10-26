@@ -8,8 +8,9 @@ mongoose.Promise = global.Promise;
 const reviewSchema = new mongoose.Schema(
   {
     product_id: String,
-    reviews: [
+    reviews:
       {
+        product_id: { type: Number, required: true },
         title: { type: String, required: true },
         author: { type: String, required: true },
         create_date: { type: Date, default: Date.now },
@@ -18,7 +19,6 @@ const reviewSchema = new mongoose.Schema(
         stars: { type: Number, default: 0, required: true },
         recommended: Boolean,
       },
-    ],
   },
 );
 
