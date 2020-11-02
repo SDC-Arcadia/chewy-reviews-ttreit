@@ -18,13 +18,11 @@ app.use(express.static(path.join(__dirname, '/../react-client/dist')));
 app.get('/reviewData/:productId', (req, res) => {
   let { productId } = req.params;
   productId = parseInt(productId, 10);
-  console.log('PRODID', productId, typeof productId);
   Reviews.find({ product_id: productId }, (err, result) => {
     if (!result) {
       console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
-      console.log('ReviewRESULT', result);
       res.status(200);
       res.json(result);
     }
@@ -42,7 +40,6 @@ app.get('/reviewSummary/:productId', (req, res) => {
       console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
-      console.log('REVIEWSUMMARY', result);
       const reviews = result;
       let recommendedCount = 0;
       reviews.forEach((review) => {
@@ -75,13 +72,14 @@ app.get('/reviewSummary/:productId', (req, res) => {
 
 app.get('/filterReviews/:productId/:starRating', (req, res) => {
   const { starRating } = req.params;
-  const { productId } = req.params;
-  Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
+  let { productId } = req.params;
+  productId = parseInt(productId, 10);
+  Reviews.find({ product_id: productId }, (err, result) => {
     if (!result) {
       console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
-      const match = result.reviews.filter((reviews) => reviews.stars === (Number(starRating)));
+      const match = result.filter((reviews) => reviews.stars === (Number(starRating)));
       res.status(200);
       res.json(match);
     }
