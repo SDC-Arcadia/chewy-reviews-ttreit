@@ -79,7 +79,7 @@ app.get('/filterReviews/:productId/:starRating', (req, res) => {
       console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
-      const match = result.filter((reviews) => reviews.stars === (Number(starRating)));
+      const match = result.filter((review) => review.stars === (Number(starRating)));
       res.status(200);
       res.json(match);
     }
@@ -91,39 +91,22 @@ app.get('*', (req, res) => {
 });
 
 //  POST request
-app.post('/addReview/:productId', (req, res) => {
-  const { productId } = req.params;
+app.post('/addReview/', (req, res) => {
   // If I don't stringify req.body and then console.log req.body I get [object, Object]
   //  I don't understand why but if I stringify, then parse it works fine.
   //  TODO figure out why this is happening and fix it
   let reqBody = JSON.stringify(req.body);
   reqBody = JSON.parse(reqBody);
-  const query = productId.toUpperCase();
-
-  //  I was not able to figure out findOneAndUpdate when pushing to an array.
-  //  TODO refactor to use findOneAndUpdate
-  Reviews.findOne(
-    { product_id: query },
-    (err, result) => {
-      if (err) {
-        console.log(`Error querying database for product # ${query}`);
-        console.error(err);
-        res.sendStatus(404);
-      } else {
-        result.reviews.push(reqBody);
-        result.save((saveError, updatedReviews) => {
-          if (saveError) {
-            console.error(saveError);
-          } else {
-            const { reviews } = updatedReviews;
-            //  log last insertion
-            console.log(reviews[reviews.length - 1]);
-            res.sendStatus(200);
-          }
-        });
-      }
-    },
-  );
+  const newReview = new Reviews(reqBody);
+  newReview.save((err, review) => {
+    if (err) {
+      console.log('Error writing new document', err);
+      res.sendStatus(404);
+    } else {
+      console.log('Added Review', review);
+      res.sendStatus(200);
+    }
+  });
 });
 
 // Update Reviews routes - 1 per review field
