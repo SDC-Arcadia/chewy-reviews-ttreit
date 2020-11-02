@@ -110,16 +110,15 @@ app.post('/addReview/', (req, res) => {
 });
 
 // Update Reviews routes - 1 per review field
-app.patch('/updateReviewlikes/:productId', (req, res) => {
-  const { productId } = req.params;
+app.patch('/updateReviewLikes/:id', (req, res) => {
+  const { id } = req.params;
   const updateData = req.body;
-  const productNumber = productId.toUpperCase();
   //  TODO Refactor - this method is deprecated
   Reviews.update(
     // eslint-disable-next-line
-    { "product_id": productNumber, "reviews._id": updateData._id },
+    { "_id": id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.likes": updateData.likes } },
+    { "$set": { "likes": updateData.likes } },
     (err) => {
       if (err) {
         console.log(err);
