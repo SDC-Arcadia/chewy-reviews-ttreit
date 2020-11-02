@@ -24,7 +24,7 @@ app.get('/reviewData/:productId', (req, res) => {
       console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
-      console.log('RESULT', result);
+      console.log('ReviewRESULT', result);
       res.status(200);
       res.json(result);
     }
@@ -34,14 +34,16 @@ app.get('/reviewData/:productId', (req, res) => {
 app.get('/reviewSummary/:productId', (req, res) => {
   const starCount = {};
   const reviewData = {};
-  const { productId } = req.params;
-  Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
+  let { productId } = req.params;
+  productId = parseInt(productId, 10);
+  Reviews.find({ product_id: productId }, (err, result) => {
     if (!result) {
       // eslint-disable-next-line no-console
       console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
-      const { reviews } = result;
+      console.log('REVIEWSUMMARY', result);
+      const reviews = result;
       let recommendedCount = 0;
       reviews.forEach((review) => {
         const { stars, recommended } = review;
