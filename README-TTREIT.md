@@ -29,7 +29,8 @@
     recommended: Boolean,
   }
 
-**Note :id for all Patch requests is the review id. See schema above for data types**
+### PATCH Requests
+**Note :id for all Patch requests is the review id. See schema in the POST /addReview/ section for data types**
 ### PATCH /updateReviewLikes/:id
 - http://chewy.com/updateReviewLikes/5f8e66e49efa78d77e9d0400
 - { "likes": 23 }
