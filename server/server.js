@@ -226,10 +226,11 @@ app.patch('/updateReviewRecommended/:id', (req, res) => {
   );
 });
 
-//  Delete product
-app.delete('/deleteProduct/:productId', (req, res) => {
-  const { productId } = req.params;
-  Reviews.deleteOne({ product_id: productId.toUpperCase() },
+//  Delete review
+app.delete('/deleteReview/:id', (req, res) => {
+  const { id } = req.params;
+  console.log('ID', id);
+  Reviews.deleteOne({ _id: id },
     (err) => {
       if (err) {
         console.error(err);
