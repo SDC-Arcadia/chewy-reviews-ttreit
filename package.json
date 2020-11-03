@@ -6,7 +6,7 @@
     "node": ">=14.13.1"
   },
   "scripts": {
-    "start-server": "nodemon server/server.js",
+    "start-server": "nodemon -r newrelic server/server.js",
     "build-dev": "webpack --config webpack.dev.js --watch",
     "build-prod": "webpack --config webpack.prod.js",
     "db:setup": "node db-mongo/seed.js",
