@@ -129,16 +129,16 @@ app.patch('/updateReviewLikes/:id', (req, res) => {
   );
 });
 
-app.patch('/updateReviewStars/:productId', (req, res) => {
-  const { productId } = req.params;
+app.patch('/updateReviewStars/:id', (req, res) => {
+  const { id } = req.params;
   const updateData = req.body;
-  const productNumber = productId.toUpperCase();
   //  TODO Refactor - this method is deprecated
+  console.log('STARS', updateData.stars);
   Reviews.update(
     // eslint-disable-next-line
-    { "product_id": productNumber, "reviews._id": updateData._id },
+    { "_id": id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.stars": updateData.stars } },
+    { "$set": { "stars": updateData.stars } },
     (err) => {
       if (err) {
         console.log(err);
