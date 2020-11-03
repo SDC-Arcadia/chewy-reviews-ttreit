@@ -168,16 +168,16 @@ app.patch('/updateReviewTitle/:id', (req, res) => {
   );
 });
 
-app.patch('/updateReviewAuthor/:productId', (req, res) => {
-  const { productId } = req.params;
+app.patch('/updateReviewAuthor/:id', (req, res) => {
+  const { id } = req.params;
   const updateData = req.body;
-  const productNumber = productId.toUpperCase();
+
   //  TODO Refactor - this method is deprecated
   Reviews.update(
     // eslint-disable-next-line
-    { "product_id": productNumber, "reviews._id": updateData._id },
+    { "_id": id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.author": updateData.author } },
+    { "$set": { "author": updateData.author } },
     (err) => {
       if (err) {
         console.log(err);
