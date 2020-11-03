@@ -1,12 +1,7 @@
 # Documentation for System Design
 
-## Reviews Form UI
-- Do you recommend (checkbox)
-- Star rating (1-5)
-- Nickname
-- Headline for Review
-- Review Text
-- Add photo
+## Node Version
+14.13.1
 
 ## Reviews - API Reference
 ### GET /reviewData/:productId
@@ -60,8 +55,6 @@
 - { "recommended": true }
 
 ### DELETE /deleteReview/:id
-- - http://chewy.com/deleteReview/5f8e66e49efa78d77e9d0400
+- http://chewy.com/deleteReview/5f8e66e49efa78d77e9d0400
 - Deletes specified review
 
-## Node Version
-14.13.1
