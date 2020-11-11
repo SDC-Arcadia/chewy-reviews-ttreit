@@ -6,3 +6,4 @@ db-mongo/fsPractice.js
 db-mongo/hiCapSeeder3.js
 newrelic.js
 scrap/*
+k6/*

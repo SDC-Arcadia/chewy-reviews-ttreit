@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, '/../react-client/dist')));
 
 //  GET Requests
 app.get('/reviewData/:productId', (req, res) => {
+  console.log(`Returning item: ${req.params.productId}`);
   let { productId } = req.params;
   productId = parseInt(productId, 10);
   Reviews.find({ product_id: productId }, (err, result) => {
