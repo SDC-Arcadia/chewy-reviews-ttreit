@@ -4,4 +4,5 @@ db-mongo/hiCapSeeder.js
 db-mongo/hiCapSeeder2.js
 db-mongo/fsPractice.js
 db-mongo/hiCapSeeder3.js
+newrelic.js
 scrap/*

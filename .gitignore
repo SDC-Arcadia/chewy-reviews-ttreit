@@ -7,3 +7,5 @@ scrap
 *.csv
 fsPractice.js
 example.txt
+*.log
+newrelic.js

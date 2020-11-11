@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+// eslint-disable-next-line no-unused-vars
+const newrelic = require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -16,15 +18,15 @@ app.use(express.static(path.join(__dirname, '/../react-client/dist')));
 
 //  GET Requests
 app.get('/reviewData/:productId', (req, res) => {
-  const { productId } = req.params;
-  Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
+  let { productId } = req.params;
+  productId = parseInt(productId, 10);
+  Reviews.find({ product_id: productId }, (err, result) => {
     if (!result) {
       console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
-      const { reviews } = result;
       res.status(200);
-      res.json(reviews);
+      res.json(result);
     }
   });
 });
@@ -32,14 +34,15 @@ app.get('/reviewData/:productId', (req, res) => {
 app.get('/reviewSummary/:productId', (req, res) => {
   const starCount = {};
   const reviewData = {};
-  const { productId } = req.params;
-  Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
+  let { productId } = req.params;
+  productId = parseInt(productId, 10);
+  Reviews.find({ product_id: productId }, (err, result) => {
     if (!result) {
       // eslint-disable-next-line no-console
       console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
-      const { reviews } = result;
+      const reviews = result;
       let recommendedCount = 0;
       reviews.forEach((review) => {
         const { stars, recommended } = review;
@@ -71,13 +74,14 @@ app.get('/reviewSummary/:productId', (req, res) => {
 
 app.get('/filterReviews/:productId/:starRating', (req, res) => {
   const { starRating } = req.params;
-  const { productId } = req.params;
-  Reviews.findOne({ product_id: productId.toUpperCase() }, (err, result) => {
+  let { productId } = req.params;
+  productId = parseInt(productId, 10);
+  Reviews.find({ product_id: productId }, (err, result) => {
     if (!result) {
       console.log('Error querying database! ', err);
       res.sendStatus(404);
     } else {
-      const match = result.reviews.filter((reviews) => reviews.stars === (Number(starRating)));
+      const match = result.filter((review) => review.stars === (Number(starRating)));
       res.status(200);
       res.json(match);
     }
@@ -89,52 +93,34 @@ app.get('*', (req, res) => {
 });
 
 //  POST request
-app.post('/addReview/:productId', (req, res) => {
-  const { productId } = req.params;
+app.post('/addReview/', (req, res) => {
   // If I don't stringify req.body and then console.log req.body I get [object, Object]
   //  I don't understand why but if I stringify, then parse it works fine.
   //  TODO figure out why this is happening and fix it
   let reqBody = JSON.stringify(req.body);
   reqBody = JSON.parse(reqBody);
-  const query = productId.toUpperCase();
-
-  //  I was not able to figure out findOneAndUpdate when pushing to an array.
-  //  TODO refactor to use findOneAndUpdate
-  Reviews.findOne(
-    { product_id: query },
-    (err, result) => {
-      if (err) {
-        console.log(`Error querying database for product # ${query}`);
-        console.error(err);
-        res.sendStatus(404);
-      } else {
-        result.reviews.push(reqBody);
-        result.save((saveError, updatedReviews) => {
-          if (saveError) {
-            console.error(saveError);
-          } else {
-            const { reviews } = updatedReviews;
-            //  log last insertion
-            console.log(reviews[reviews.length - 1]);
-            res.sendStatus(200);
-          }
-        });
-      }
-    },
-  );
+  const newReview = new Reviews(reqBody);
+  newReview.save((err, review) => {
+    if (err) {
+      console.log('Error writing new document', err);
+      res.sendStatus(404);
+    } else {
+      console.log('Added Review', review);
+      res.sendStatus(200);
+    }
+  });
 });
 
 // Update Reviews routes - 1 per review field
-app.patch('/updateReviewlikes/:productId', (req, res) => {
-  const { productId } = req.params;
+app.patch('/updateReviewLikes/:id', (req, res) => {
+  const { id } = req.params;
   const updateData = req.body;
-  const productNumber = productId.toUpperCase();
   //  TODO Refactor - this method is deprecated
   Reviews.update(
     // eslint-disable-next-line
-    { "product_id": productNumber, "reviews._id": updateData._id },
+    { "_id": id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.likes": updateData.likes } },
+    { "$set": { "likes": updateData.likes } },
     (err) => {
       if (err) {
         console.log(err);
@@ -145,16 +131,16 @@ app.patch('/updateReviewlikes/:productId', (req, res) => {
   );
 });
 
-app.patch('/updateReviewStars/:productId', (req, res) => {
-  const { productId } = req.params;
+app.patch('/updateReviewStars/:id', (req, res) => {
+  const { id } = req.params;
   const updateData = req.body;
-  const productNumber = productId.toUpperCase();
   //  TODO Refactor - this method is deprecated
+  console.log('STARS', updateData.stars);
   Reviews.update(
     // eslint-disable-next-line
-    { "product_id": productNumber, "reviews._id": updateData._id },
+    { "_id": id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.stars": updateData.stars } },
+    { "$set": { "stars": updateData.stars } },
     (err) => {
       if (err) {
         console.log(err);
@@ -165,16 +151,15 @@ app.patch('/updateReviewStars/:productId', (req, res) => {
   );
 });
 
-app.patch('/updateReviewTitle/:productId', (req, res) => {
-  const { productId } = req.params;
+app.patch('/updateReviewTitle/:id', (req, res) => {
+  const { id } = req.params;
   const updateData = req.body;
-  const productNumber = productId.toUpperCase();
   //  TODO Refactor - this method is deprecated
   Reviews.update(
     // eslint-disable-next-line
-    { "product_id": productNumber, "reviews._id": updateData._id },
+    { "_id": id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.title": updateData.title } },
+    { "$set": { "title": updateData.title } },
     (err) => {
       if (err) {
         console.log(err);
@@ -185,16 +170,16 @@ app.patch('/updateReviewTitle/:productId', (req, res) => {
   );
 });
 
-app.patch('/updateReviewAuthor/:productId', (req, res) => {
-  const { productId } = req.params;
+app.patch('/updateReviewAuthor/:id', (req, res) => {
+  const { id } = req.params;
   const updateData = req.body;
-  const productNumber = productId.toUpperCase();
+
   //  TODO Refactor - this method is deprecated
   Reviews.update(
     // eslint-disable-next-line
-    { "product_id": productNumber, "reviews._id": updateData._id },
+    { "_id": id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.author": updateData.author } },
+    { "$set": { "author": updateData.author } },
     (err) => {
       if (err) {
         console.log(err);
@@ -205,16 +190,15 @@ app.patch('/updateReviewAuthor/:productId', (req, res) => {
   );
 });
 
-app.patch('/updateReviewBody/:productId', (req, res) => {
-  const { productId } = req.params;
+app.patch('/updateReviewBody/:id', (req, res) => {
+  const { id } = req.params;
   const updateData = req.body;
-  const productNumber = productId.toUpperCase();
   //  TODO Refactor - this method is deprecated
   Reviews.update(
     // eslint-disable-next-line
-    { "product_id": productNumber, "reviews._id": updateData._id },
+    { "_id": id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.body": updateData.body } },
+    { "$set": { "body": updateData.body } },
     (err) => {
       if (err) {
         console.log(err);
@@ -225,16 +209,15 @@ app.patch('/updateReviewBody/:productId', (req, res) => {
   );
 });
 
-app.patch('/updateReviewRecommended/:productId', (req, res) => {
-  const { productId } = req.params;
+app.patch('/updateReviewRecommended/:id', (req, res) => {
+  const { id } = req.params;
   const updateData = req.body;
-  const productNumber = productId.toUpperCase();
   //  TODO Refactor - this method is deprecated
   Reviews.update(
     // eslint-disable-next-line
-    { "product_id": productNumber, "reviews._id": updateData._id },
+    { "_id": id },
     // eslint-disable-next-line
-    { "$set": { "reviews.$.recommended": updateData.recommended } },
+    { "$set": { "recommended": updateData.recommended } },
     (err) => {
       if (err) {
         console.log(err);
@@ -245,10 +228,11 @@ app.patch('/updateReviewRecommended/:productId', (req, res) => {
   );
 });
 
-//  Delete product
-app.delete('/deleteProduct/:productId', (req, res) => {
-  const { productId } = req.params;
-  Reviews.deleteOne({ product_id: productId.toUpperCase() },
+//  Delete review
+app.delete('/deleteReview/:id', (req, res) => {
+  const { id } = req.params;
+  console.log('ID', id);
+  Reviews.deleteOne({ _id: id },
     (err) => {
       if (err) {
         console.error(err);
