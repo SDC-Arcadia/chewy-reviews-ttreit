@@ -9,3 +9,4 @@ fsPractice.js
 example.txt
 *.log
 newrelic.js
+*.pem
