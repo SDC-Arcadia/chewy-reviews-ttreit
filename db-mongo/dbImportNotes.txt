@@ -37,6 +37,10 @@ VALUES(9999771,10,5,'TEST TITLE','TEST AUTHOR','Sun Oct 25 2020 09:00:59 GMT-070
 ***Mongo Setup***
 
 mongoimport -d chewy -c reviews --type csv --file /Users/Tammy/HackReactor/SDC/chewy-reviews-ttreit/db-mongo/reviews.csv --headerline
+mongoimport -d chewy -c reviews --type csv --file /seeder/ttreit-seeder/reviews.csv --headerline
+mongoimport -d chewy -c reviews --type csv --file ./reviews.csv --headerline
+
+
 
 ***Mongo Index***
 db.reviews.createIndex( { product_id: -1 } )
